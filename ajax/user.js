@@ -30,7 +30,7 @@ function displayAll() {
                         </tr>`
             }
             content += `</table>`
-            document.getElementById("products").innerHTML = content
+            document.getElementById("users").innerHTML = content
         }
     })
 }
