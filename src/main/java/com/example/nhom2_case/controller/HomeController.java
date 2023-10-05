@@ -66,4 +66,8 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/search/{search}")
+    public ResponseEntity<?> searchByName(@PathVariable String search){
+        return new ResponseEntity<>(homeService.searchByName(search),HttpStatus.OK);
+    }
 }

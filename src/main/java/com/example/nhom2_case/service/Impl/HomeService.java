@@ -30,4 +30,9 @@ public class HomeService implements IHomeService {
     public void delete(Long id) {
 
     }
+
+    @Override
+    public Iterable<Home> searchByName(String search) {
+        return homeRepository.findAllByNameContaining(search);
+    }
 }
