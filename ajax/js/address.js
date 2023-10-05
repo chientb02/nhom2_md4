@@ -4,9 +4,9 @@ function displayCity() {
         type: "GET",
         url: `http://localhost:8080/api/cities`,
         success: function (data) {
-            let content = "<label for='select_city'>City</label><br>"
-             content += '<select id="select_city" onchange="displayDistrict()" style="width: 80%; height: 30px" class="form-select">';
-            content += `<option>--Chọn thành phố-- </option>`;
+            let content = "<label for='select_city'>Thành phố</label><br>"
+             content += '<select id="select_city" onchange="displayDistrict()"  class="form-select">';
+            content += `<option>--Chọn thành phố--</option>`;
             for (let i = 0; i<data.length; i++) {
 
                 content += `<option value = ${data[i].idCity}> ${data[i].name} </option>`;
@@ -23,8 +23,8 @@ function displayDistrict() {
         type: "POST",
         url: `http://localhost:8080/api/addresses/city/${idCity}`,
         success: function (data) {
-            let content = "<label for='select_district'>District</label><br>"
-            content += '<select id="select_district" style="width: 80%; height: 30px" class="form-select">';
+            let content = "<label for='select_district'>Quận/huyện</label><br>"
+            content += '<select id="select_district"  class="form-select">';
             for (let i = 0; i<data.length; i++) {
                 content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
             }
@@ -38,9 +38,9 @@ function displayStatus() {
         type: "GET",
         url: `http://localhost:8080/api/status`,
         success: function (data) {
-            let content = "<label for='select_status'>Status</label><br>"
-            content += '<select id="select_status" style="width: 80%; height: 30px" class="form-select">';
-            content += `<option>--Chọn trạng thái-- </option>`;
+            let content = "<label for='select_status'>Trạng thái</label><br>"
+            content += '<select id="select_status" class="form-select">';
+            content += `<option>--Chọn trạng thái--</option>`;
             for (let i = 0; i<data.length; i++) {
                 content += `<option value = ${data[i].idStatus}> ${data[i].name} </option>`;
             }
@@ -61,8 +61,17 @@ function Filter() {
     let count_bathroom = $("#bathroom").val();
     let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
+    if(idCity === "--Chọn thành phố--") {
+        idCity = null;
+    }
     let idDistrict = $('#select_district').val();
+    if(idDistrict === undefined) {
+        idDistrict = null;
+    }
     let idStatus = $('#select_status').val();
+    if(idStatus === "--Chọn trạng thái--") {
+        idStatus = null;
+    }
     newFilter =  {
         minPrice: minPrice,
         maxPrice: maxPrice,
