@@ -11,6 +11,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser ;
+    @OneToOne
+    private Account account ;
     private String fullName ;
     private String avatar ;
     private String sex ;
@@ -23,8 +25,9 @@ public class User {
     public User() {
     }
 
-    public User(Long idUser, String fullName, String avatar, String sex, int age, String address, String phone, MultipartFile file) {
+    public User(Long idUser, Account account, String fullName, String avatar, String sex, int age, String address, String phone, MultipartFile file) {
         this.idUser = idUser;
+        this.account = account;
         this.fullName = fullName;
         this.avatar = avatar;
         this.sex = sex;
@@ -32,6 +35,14 @@ public class User {
         this.address = address;
         this.phone = phone;
         this.file = file;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Long getIdUser() {
