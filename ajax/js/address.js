@@ -56,8 +56,10 @@ function displayAddress() {
     displayStatus()
 }
 function Filter() {
-    let minPrice = $("#minPrice").val();
-    let maxPrice = $("#maxPrice").val();
+    let price = $("#price").val();
+    let priceValue = price.split("-")
+    let minPrice = priceValue[0];
+    let maxPrice = priceValue[1];
     let count_bathroom = $("#bathroom").val();
     let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
