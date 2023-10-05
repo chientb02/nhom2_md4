@@ -8,6 +8,8 @@ public class Bill {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long idBill ;
+    @ManyToOne
+    private Home home;
 
     @ManyToOne
     private Account account ;
@@ -24,6 +26,14 @@ public class Bill {
 
     public void setIdBill(Long idBill) {
         this.idBill = idBill;
+    }
+
+    public Home getHome() {
+        return home;
+    }
+
+    public void setHome(Home home) {
+        this.home = home;
     }
 
     public Account getAccount() {
@@ -55,14 +65,6 @@ public class Bill {
     }
 
     public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Bill(Long idBill, Account account, LocalDate checkin, LocalDate checkout, double totalPrice) {
-        this.idBill = idBill;
-        this.account = account;
-        this.checkin = checkin;
-        this.checkout = checkout;
         this.totalPrice = totalPrice;
     }
 }
