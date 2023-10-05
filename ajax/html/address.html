@@ -26,14 +26,32 @@
             <div id="status"></div>
         </div>
         <div class="form-outline">
-            <label for="minPrice"></label><input type="number" id="minPrice">
-            <label for="maxPrice"></label><input type="number" id="maxPrice">
+            <label for="price">Giá cho thuê:</label>
+            <select id="price">
+                <option value="1000000-3000000">1 triệu - 3 triệu</option>
+                <option value="3000000-5000000">3 triệu - 5 triệu</option>
+                <option value="5000000-7000000">5 triệu - 7 triệu</option>
+                <option value="7000000-10000000">7 triệu - 10 triệu</option>
+            </select>
         </div>
         <div class="form-outline">
-            <label for="bathroom">Phòng tắm</label><input type="number" id="bathroom">
+            <label for="bathroom">Phòng vệ sinh</label>
+            <select id="bathroom">
+                <option value="1">1 phòng</option>
+                <option value="2">2 phòng</option>
+                <option value="3">3 phòng</option>
+                <option value="4">4 phòng</option>
+            </select>
         </div>
         <div class="form-outline">
-            <label for="bedroom">Phòng ngủ</label><input type="number" id="bedroom">
+            <label for="bedroom">Phòng ngủ</label>
+            <select id="bedroom">
+                <option value="1">1 phòng</option>
+                <option value="2">2 phòng</option>
+                <option value="3">3 phòng</option>
+                <option value="4">4 phòng</option>
+                <option value="5">5 phòng</option>
+            </select>
         </div>
     </div>
     <button type="submit" onclick="Filter()">Search</button>
