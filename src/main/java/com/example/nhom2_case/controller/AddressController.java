@@ -30,7 +30,7 @@ public class AddressController {
         } return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/city/{idCity}")
+    @PostMapping ("/city/{idCity}")
     public ResponseEntity<List<Address>> findAllByIdCity(@PathVariable("idCity") Long idCity) {
         List<Address> addresses = addressService.findAllByIdCity(idCity);
         if (addresses.isEmpty()) {

@@ -16,16 +16,16 @@ public class FilterService implements IFilterService {
     private FilterRepository filterRepository;
 
     public List<Home> searchFilter(Filter filter) {
-        try {
-            return filterRepository.searchFilter(
-                    filter.getMinPrice(),
-                    filter.getMaxPrice(),
-                    filter.getStatus().getIdStatus(),
-                    filter.getCity().getIdCity(),
-                    filter.getAddress().getIdAddress()
-            );
-        } catch (Exception e) {
-            e.getStackTrace();
-        } return null;
+        return filterRepository.searchFilter(
+                filter.getMinPrice(),
+                filter.getMaxPrice(),
+                filter.getCount_bathroom(),
+                filter.getCount_bedroom(),
+                filter.getStatus().getIdStatus(),
+                filter.getCity().getIdCity(),
+                filter.getAddress().getIdAddress()
+        );
+
+
     }
 }

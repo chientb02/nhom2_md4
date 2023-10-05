@@ -20,10 +20,10 @@ function displayCity() {
 function displayDistrict() {
     let idCity = $('#select_city').val();
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: `http://localhost:8080/api/addresses/city/${idCity}`,
         success: function (data) {
-            let content = "<label for='select_district'>City</label><br>"
+            let content = "<label for='select_district'>District</label><br>"
             content += '<select id="select_district" style="width: 80%; height: 30px" class="form-select">';
             for (let i = 0; i<data.length; i++) {
                 content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
@@ -58,12 +58,16 @@ function displayAddress() {
 function Filter() {
     let minPrice = $("#minPrice").val();
     let maxPrice = $("#maxPrice").val();
+    let count_bathroom = $("#bathroom").val();
+    let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
     let idDistrict = $('#select_district').val();
     let idStatus = $('#select_status').val();
     newFilter =  {
         minPrice: minPrice,
         maxPrice: maxPrice,
+        count_bathroom: count_bathroom,
+        count_bedroom: count_bedroom,
         city: {
             idCity: idCity
         },
@@ -82,7 +86,7 @@ function Filter() {
         },
         type: "POST",
         data: JSON.stringify(newFilter),
-        url: `http://localhost:8080/filters/m1`,
+        url: "http://localhost:8080/api/filters",
         success: function (data) {
             console.log(data)
             let content = `<h2>List home</h2>`
@@ -102,7 +106,7 @@ function Filter() {
                 content += `<tr>
                         <td>${i + 1}</td>
                         <td>${data[i].name}</td>
-                        <td>${data[i].address}</td>
+                        <td>${data[i].address.name}</td>
                         <td>${data[i].address.city.name}</td>
                         <td>${data[i].bedroom_count}</td>
                         <td>${data[i].bathroom_count}</td>
@@ -111,15 +115,13 @@ function Filter() {
 <!--                        Chưa xử lý image//-->
 
 
-                        <td>${data[i].status}</td>
+                        <td>${data[i].status.name}</td>
                      
                      
-                        <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
-                        <td><button onclick="deleteProduct(${data[i].id})">Delete</button></td>
                         </tr>`
             }
             content += `</table>`
-            document.getElementById("homes").innerHTML = content
+            document.getElementById("1").innerHTML = content
         }
 
 
