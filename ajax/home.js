@@ -5,6 +5,8 @@ function displayAll1() {
         type: "GET",
         success: function (data) {
             arr = data
+            console.log(displayImage(1))
+
             let content = `<h2>List home</h2>`
             content += `<table><tr>
                         <th>STT</th>
@@ -29,7 +31,7 @@ function displayAll1() {
                         <td>${data[i].description}</td>
                         <td>${data[i].price}</td>
 <!--                        Chưa xử lý image//-->
-                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].image}" alt=""></td>
+                        <td > <img src=""  alt=""></td>
 
                         <td>${data[i].status}</td>
                         <td>${data[i].account}</td>
@@ -42,4 +44,65 @@ function displayAll1() {
             document.getElementById("homes").innerHTML = content
         }
     })
+}
+function save() {
+    let home
+    let name = $("#name").val()
+    let bedroom_count = $("#bedroom_count").val()
+    let bathroom_count = $("#bathroom_count").val()
+    let description = $("#description").val()
+    let price = $("#price").val()
+    let file = $("#file")[0].files[0]
+    let id = +localStorage.getItem("idUpdate")
+    if (file === undefined) {
+        file = new File([], "", undefined)
+    }
+    if (id !== -1) {
+        home = {
+            id: id,
+            name: name,
+            bedroom_count: bedroom_count,
+            bathroom_count: bathroom_count,
+            description: description,
+            price: price,
+            image: localStorage.getItem("image")
+        }
+    }else{
+        home = {
+            name: name,
+            bedroom_count: bedroom_count,
+            bathroom_count: bathroom_count,
+            description: description,
+            price: price
+        }
+    }
+    let formData = new FormData()
+    formData.append("homes",
+        new Blob([JSON.stringify(home)], {type: 'application/json'}))
+    formData.append("file", file)
+    $.ajax({
+        url: "http://localhost:8080/api/homes",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function () {
+            alert("Create successfully!")
+            displayAll()
+            localStorage.setItem("idUpdate", "-1")
+        }
+    })
+    document.getElementById("form").reset()
+    event.preventDefault()
+}
+function displayImage(id) {
+    var settings = {
+        url: `http://localhost:8080/api/homes/img/${id}`,
+        type: "GET",
+    };
+    let content = ""
+    $.ajax(settings).done(function (response) {
+        content += `${response.image}`
+    });
+    return content;
 }

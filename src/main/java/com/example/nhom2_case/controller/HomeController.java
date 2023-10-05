@@ -46,12 +46,17 @@ public class HomeController {
         homeService.save(home);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @GetMapping("/img/{id}")
+    public ResponseEntity<Iterable<Image>> image(@PathVariable Long id) {
+        return new ResponseEntity<>(homeService.image(id), HttpStatus.OK);
+
+    }
     private void getImagePath(Home home, MultipartFile file) {
         List<Image> list = new ArrayList<>();
         List<Image> list2 = new ArrayList<>();
         if (file.getSize() == 0) {
             if (Objects.equals(home.getIdHome(), null)) {
-                list2.add(new Image("oto2.jpg"));
+                list2.add(new Image("download.png"));
                 home.setImage(list2);
             }
         } else {

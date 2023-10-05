@@ -1,4 +1,6 @@
 package com.example.nhom2_case.model;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +10,27 @@ public class Image {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long idImage ;
     private String image ;
+    @Transient
+    private MultipartFile file;
     @ManyToOne
     private Home home ;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    public Image(Long idImage, String image, MultipartFile file, Home home) {
+        this.idImage = idImage;
+        this.image = image;
+        this.file = file;
+        this.home = home;
+    }
+
+
 
     public Image() {
     }
