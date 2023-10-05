@@ -1,5 +1,6 @@
 package com.example.nhom2_case.model;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,8 @@ public class Home {
     private int bathroom_count;
     private String description;
     private double price;
-    @Transient
-    private List<Image> image;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images = new ArrayList<>();
     @ManyToOne
     private Status status;
 
@@ -26,7 +27,7 @@ public class Home {
     public Home() {
     }
 
-    public Home(Long idHome, String name, Address address, int bedroom_count, int bathroom_count, String description, double price, List<Image> image, Status status, Account account) {
+    public Home(Long idHome, String name, Address address, int bedroom_count, int bathroom_count, String description, double price, List<Image> images, Status status, Account account) {
         this.idHome = idHome;
         this.name = name;
         this.address = address;
@@ -34,7 +35,7 @@ public class Home {
         this.bathroom_count = bathroom_count;
         this.description = description;
         this.price = price;
-        this.image = image;
+        this.images = images;
         this.status = status;
         this.account = account;
     }
@@ -95,12 +96,12 @@ public class Home {
         this.price = price;
     }
 
-    public List<Image> getImage() {
-        return image;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setImage(List<Image> image) {
-        this.image = image;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     public Status getStatus() {

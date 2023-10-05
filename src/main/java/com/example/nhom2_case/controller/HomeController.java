@@ -57,7 +57,7 @@ public class HomeController {
         if (file.getSize() == 0) {
             if (Objects.equals(home.getIdHome(), null)) {
                 list2.add(new Image("download.png"));
-                home.setImage(list2);
+                home.setImages(list2);
             }
         } else {
             String name = file.getOriginalFilename();
@@ -67,7 +67,7 @@ public class HomeController {
                 e.printStackTrace();
             }
             list.add(new Image(name));
-            home.setImage(list);
+            home.setImages(list);
         }
     }
 
