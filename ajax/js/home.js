@@ -2,8 +2,7 @@ let arrHome;
 let listDisplayPage;
 let numberPage;
 let totalPage;
-
-function demoDisplay() {
+function DisplayAllHomestay() {
     $.ajax({
         url: "http://localhost:8080/api/homes",
         type: "GET",
@@ -21,8 +20,19 @@ function demoDisplay() {
 function detailHome(id) {
     $.ajax({
         url: `http://localhost:8080/api/homes/${id}`,
-        type: "GET"
+        type:"GET",
+        success: function (data){
+            $("nameDetail").val(`${data.name}`)
+            $("descriptionDetail").val(`${data.description}`)
+            $("priceDetail").val(`Gia: ${data.price}`)
+            $("addressDetail").val(` ${data.address.name}`)
+            $("cityDetail").val(` ${data.address.city.name}`)
+            $("bedroom").val(` ${data.bedroom_count}`)
+            $("bathroom").val(` ${data.bathroom_count}`)
+
+        }
     })
+    window.location.href="detailHomestay.html"
 }
 
 function findOne() {
@@ -175,7 +185,7 @@ function showHome(data) {
         </div>
         <div class="d-flex border-top">
             <small class="w-50 text-center border-end py-2">
-                <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</a>
+                <button style="border: none;background: none" onclick="detailHome(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</button>
             </small>
             <small class="w-50 text-center py-2">
                 <a class="text-body" href=""><i class="far fa-heart"></i>  Thuê ngay</a>
