@@ -2,6 +2,7 @@ let arrHome;
 let listDisplayPage;
 let numberPage;
 let totalPage;
+
 function demoDisplay() {
     $.ajax({
         url: "http://localhost:8080/api/homes",
@@ -16,10 +17,11 @@ function demoDisplay() {
     })
 
 }
+
 function detailHome(id) {
     $.ajax({
         url: `http://localhost:8080/api/homes/${id}`,
-        type:"GET"
+        type: "GET"
     })
 }
 
@@ -35,15 +37,15 @@ function Filter() {
     let count_bathroom = $("#bathroom").val();
     let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
-    if(idCity === "--Chọn thành phố--") {
+    if (idCity === "--Chọn thành phố--") {
         idCity = null;
     }
     let idDistrict = $('#select_district').val();
-    if(idDistrict === undefined) {
+    if (idDistrict === undefined) {
         idDistrict = null;
     }
     let idStatus = $('#select_status').val();
-    if(idStatus === "--Chọn trạng thái--") {
+    if (idStatus === "--Chọn trạng thái--") {
         idStatus = null;
     }
     newFilter = {
@@ -88,12 +90,13 @@ function searchByName() {
         url: `http://localhost:8080/api/homes/search/${search}`,
         type: "GET",
         success: function (data) {
-           showHome(data);
+            showHome(data);
             showPage();
         }
     })
     event.preventDefault();
 }
+
 function displayOneImg(id) {
     var settings = {
         "url": `http://localhost:8080/api/homes/img/${id}`,
@@ -135,9 +138,9 @@ function showFootPage() {
                      <button class="btn btn-outline-primary" id="next" onclick="nextPage(numberPage)">Next</button>
                      </div>`
     document.getElementById("footPage").innerHTML = content;
-    if (numberPage === 0){
+    if (numberPage === 0) {
         $("#previous").hide();
-    }else if (numberPage === totalPage - 1){
+    } else if (numberPage === totalPage - 1) {
         $("#next").hide();
     }
 }
@@ -184,6 +187,7 @@ function showHome(data) {
     }
     document.getElementById("homes").innerHTML = content
 }
+
 function displayImg(id) {
     var settings = {
         "url": `http://localhost:8080/api/homes/img/${id}`,
@@ -202,6 +206,9 @@ function displayImg(id) {
 }
 
 let arr;
+
+
+
 function displayAll1() {
     let acc = localStorage.getItem("account");
     $.ajax({
@@ -224,9 +231,11 @@ function displayAll1() {
                         <th>Account</th>
                         <th colspan="2">Action</th>
                         </tr>`
+            let j = 1;
             for (let i = 0; i < data.length; i++) {
-                content += `<tr>
-                        <td>${i + 1}</td>
+                if (data[i].deleted === null) {
+                    content += `<tr>
+                        <td>${j++}</td>
                         <td>${data[i].name}</td>
                         <td>${data[i].address.name} ${data[i].address.city.name}</td>
                         <td>${data[i].bedroom_count}</td>
@@ -238,17 +247,20 @@ function displayAll1() {
                         <td>${data[i].status.name}</td>
                         <td>${data[i].account.username}</td>
                         
-                        <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
-                        <td><button onclick="deleteProduct(${data[i].id})">Delete</button></td>
+                        <td><button onclick="updateH(${data[i].id})">Update</button></td>
+                        <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
                         </tr>`
-                displayImg(data[i].idHome);
+                    displayImg(data[i].idHome);
+                }
             }
             content += `</table>`
             document.getElementById("homes").innerHTML = content
         }
     })
 }
+
 displayAddress()
+
 function displayCity() {
     $.ajax({
         type: "GET",
@@ -257,7 +269,7 @@ function displayCity() {
             let content = "<label for='select_city'>Thành phố</label><br>"
             content += '<select id="select_city" onchange="displayDistrict()"  class="form-select">';
             content += `<option>--Chọn thành phố--</option>`;
-            for (let i = 0; i<data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
 
                 content += `<option value = ${data[i].idCity}> ${data[i].name} </option>`;
             }
@@ -267,6 +279,7 @@ function displayCity() {
 
     })
 }
+
 function displayDistrict() {
     let idCity = $('#select_city').val();
     $.ajax({
@@ -275,7 +288,7 @@ function displayDistrict() {
         success: function (data) {
             let content = "<label for='select_district'>Quận/huyện</label><br>"
             content += '<select id="select_district"  class="form-select">';
-            for (let i = 0; i<data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
             }
             content += '</select>'
@@ -283,6 +296,7 @@ function displayDistrict() {
         }
     })
 }
+
 function displayStatus() {
     $.ajax({
         type: "GET",
@@ -291,7 +305,7 @@ function displayStatus() {
             let content = "<label for='select_status'>Trạng thái</label><br>"
             content += '<select id="select_status" class="form-select">';
             content += `<option>--Chọn trạng thái--</option>`;
-            for (let i = 0; i<data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 content += `<option value = ${data[i].idStatus}> ${data[i].name} </option>`;
             }
             content += '</select>'
@@ -300,11 +314,13 @@ function displayStatus() {
 
     })
 }
+
 function displayAddress() {
     displayCity();
     displayDistrict();
     displayStatus()
 }
+
 function save() {
     let home
     let name = $("#name").val()
@@ -382,6 +398,18 @@ function save() {
     document.getElementById("form").reset()
     event.preventDefault()
 }
+
+function deleteH(id) {
+    $.ajax({
+        url: `http://localhost:8080/api/homes/delete/${id}`,
+        type: "GET",
+        success: function () {
+            alert("Delete successfully!")
+            displayAll1()
+        }
+    })
+}
+
 // function displayImg(id) {
 //     var settings = {
 //         "url": `http://localhost:8080/api/homes/img/${id}`,

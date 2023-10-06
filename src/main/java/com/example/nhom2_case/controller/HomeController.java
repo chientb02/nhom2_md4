@@ -109,4 +109,13 @@ public class HomeController {
     public ResponseEntity<?> searchByName(@PathVariable String search){
         return new ResponseEntity<>(homeService.searchByName(search),HttpStatus.OK);
     }
+    @GetMapping("/delete/{id}")
+    public void delete(@PathVariable Long id) {
+        Optional<Home> optionalHome = homeService.findOne(id);
+        if (optionalHome.isPresent()) {
+            Home home = optionalHome.get();
+            home.setDeleted(1);
+            homeService.save(home);
+        }
+    }
 }
