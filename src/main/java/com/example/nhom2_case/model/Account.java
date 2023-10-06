@@ -11,8 +11,7 @@ import java.util.Set;
         private Long id;
         private String username;
         private String password;
-        @OneToOne
-        private User user ;
+
 
         @ManyToMany(fetch = FetchType.EAGER)
         private Set<Role> roles;
@@ -20,13 +19,7 @@ import java.util.Set;
         public Account() {
         }
 
-        public User getUser() {
-            return user;
-        }
 
-        public void setUser(User user) {
-            this.user = user;
-        }
 
         public Account(Long id, String username, String password) {
             this.id = id;

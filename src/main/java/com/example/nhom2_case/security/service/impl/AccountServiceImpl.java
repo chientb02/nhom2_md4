@@ -3,11 +3,10 @@ package com.example.nhom2_case.security.service.impl;
 
 import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.AccountPrinciple;
-import com.example.nhom2_case.model.User;
-import com.example.nhom2_case.repository.UserRepository;
+
 import com.example.nhom2_case.security.repository.IAccountRepository;
 import com.example.nhom2_case.security.service.IAccountService;
-import com.example.nhom2_case.service.IUserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,8 +20,7 @@ public class AccountServiceImpl implements UserDetailsService, IAccountService {
     @Autowired
     private IAccountRepository iUserRepository;
 
-    @Autowired
-    private UserRepository userService ;
+
 
     public Account findById(Long id) {
         Optional<Account> userOptional = iUserRepository.findById(id);
@@ -34,16 +32,14 @@ public class AccountServiceImpl implements UserDetailsService, IAccountService {
     }
 
     public void save(Account user) {
-        iUserRepository.addUser(user.getId());
-        User user1 = userService.findFirstByOrderByIdUserDesc() ;
-        user.setUser(user1);
+
         iUserRepository.save(user);
 
     }
     public void addAcc(Account account) {
 
         iUserRepository.addAcc(account.getId() , 2L);
-
+        iUserRepository.addUser(account.getId());
     }
 
     public UserDetails loadUserByUsername(String username) {

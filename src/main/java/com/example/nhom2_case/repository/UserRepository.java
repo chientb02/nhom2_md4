@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.Query;
 
 
 public interface UserRepository extends JpaRepository <User , Long> {
-    User findFirstByOrderByIdUserDesc() ;
+    User findUserByAccount_Id (Long id);
 }
