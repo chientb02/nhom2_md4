@@ -1,5 +1,4 @@
 package com.example.nhom2_case.controller;
-
 import com.example.nhom2_case.model.User;
 import com.example.nhom2_case.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,8 +24,10 @@ public class UserController {
     public ResponseEntity<Iterable<User>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> findOne(@PathVariable Long id) {
+
         Optional<User> user = userService.findOne(id);
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);

@@ -16,4 +16,10 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     @Modifying
     @Query(value = "insert into account_roles (account_id, roles_id ) values (?1,?2)",nativeQuery = true)
     void addAcc(Long idAcc ,Long idRole);
+
+    @Modifying
+    @Query(value = "insert into user (account_id) values (?1)",nativeQuery = true)
+    void addUser(Long idAcc );
+
+
 }

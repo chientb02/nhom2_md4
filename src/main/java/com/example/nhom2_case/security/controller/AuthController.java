@@ -55,9 +55,6 @@ public class AuthController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> register(@RequestBody Account user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Set<Role> roleSet = new HashSet<>();
-
-
         userService.save(user);
         userService.addAcc(user);
         return new ResponseEntity<>("Vui lòng quay lại trang đăng nhập", HttpStatus.OK);

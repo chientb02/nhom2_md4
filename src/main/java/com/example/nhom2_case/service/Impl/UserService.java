@@ -30,6 +30,10 @@ public class UserService implements IUserService {
 
     @Override
     public void delete(Long id) {
+    }
 
+    @Override
+    public User findByAccount(Long id) {
+        return userRepository.findUserByAccount_Id(id);
     }
 }
