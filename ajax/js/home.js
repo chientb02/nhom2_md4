@@ -28,8 +28,7 @@ function displayAll1() {
                         <td>${data[i].bathroom_count}</td>
                         <td>${data[i].description}</td>
                         <td>${data[i].price}</td>
-<!--                        Chưa xử lý image//-->
-                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].image}" alt=""></td>
+                        <td><p id="\img${data[i].idHome}\"></p></td>
 
                         <td>${data[i].status}</td>
                         <td>${data[i].account}</td>
@@ -37,6 +36,7 @@ function displayAll1() {
                         <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
                         <td><button onclick="deleteProduct(${data[i].id})">Delete</button></td>
                         </tr>`
+                displayImg(data[i].idHome);
             }
             content += `</table>`
             document.getElementById("homes").innerHTML = content
@@ -96,10 +96,25 @@ function save() {
         data: formData,
         success: function () {
             alert("Create successfully!")
-            displayAll()
+            displayAll1()
             localStorage.setItem("idUpdate", "-1")
         }
     })
     document.getElementById("form").reset()
     event.preventDefault()
+}
+function displayImg(id) {
+    var settings = {
+        "url": `http://localhost:8080/api/homes/img/${id}`,
+        "method": "GET",
+        "timeout": 0,
+    };
+
+    $.ajax(settings).done(function (response) {
+        let content = "";
+        for (let i = 0; i < response.length; i++) {
+            content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+        }
+        document.getElementById("img" + id).innerHTML = content;
+    });
 }

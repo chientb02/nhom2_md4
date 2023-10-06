@@ -5,6 +5,7 @@ import com.example.nhom2_case.model.Image;
 import com.example.nhom2_case.model.User;
 import com.example.nhom2_case.repository.ImageRepository;
 import com.example.nhom2_case.service.IHomeService;
+import com.example.nhom2_case.service.IImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,8 @@ import java.util.Optional;
 @CrossOrigin("*")
 @RequestMapping("/api/homes")
 public class HomeController {
+    @Autowired
+    private IImage image;
     @Autowired
     private IHomeService homeService;
 
@@ -63,6 +66,10 @@ public class HomeController {
         }
         getImagePath(homeDB, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @GetMapping("/img/{id}")
+    public List<Image> images(@PathVariable Long id) {
+        return imageRepository.images(id);
     }
     private void getImagePath(Home home, List<MultipartFile> files) {
         List<Image> images = new ArrayList<>();
