@@ -1,13 +1,10 @@
 package com.example.nhom2_case.controller;
-
 import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.Home;
 import com.example.nhom2_case.model.Image;
-import com.example.nhom2_case.model.User;
 import com.example.nhom2_case.repository.ImageRepository;
 import com.example.nhom2_case.security.repository.IAccountRepository;
 import com.example.nhom2_case.service.IHomeService;
-import com.example.nhom2_case.service.IImage;
 import com.example.nhom2_case.service.IImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -89,11 +85,8 @@ public class HomeController {
             Image image = new Image(img);
             image.setHome(home);
             images.add(image);
-                                  @RequestPart(value = "file", required = false) MultipartFile file) {
-//        getImagePath(home, file);
-        homeService.save(home);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+
+    }}
 
     @GetMapping("/findAcc/{idAcc}")
     public Account findAcc(@PathVariable Long idAcc) {
@@ -103,7 +96,6 @@ public class HomeController {
         } else {
             return null;
         }
-        imageRepository.saveAll(images);
     }
 
 }
