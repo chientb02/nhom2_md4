@@ -359,6 +359,7 @@ function save() {
     }
 
 
+
     formData.append("homes",
         new Blob([JSON.stringify(home)], {type: 'application/json'}))
 
@@ -377,18 +378,5 @@ function save() {
     document.getElementById("form").reset()
     event.preventDefault()
 }
-// function displayImg(id) {
-//     var settings = {
-//         "url": `http://localhost:8080/api/homes/img/${id}`,
-//         "method": "GET",
-//         "timeout": 0,
-//     };
-//
-//     $.ajax(settings).done(function (response) {
-//         let content = "";
-//         for (let i = 0; i < response.length; i++) {
-//             content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
-//         }
-//         document.getElementById("img" + id).innerHTML = content;
-//     });
-// }
+
+function rentHome()
