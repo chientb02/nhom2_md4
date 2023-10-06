@@ -12,6 +12,7 @@ public class AccountPrinciple implements UserDetails {
     private static final long serialVersionUID = 1L;
     private final String username;
     private final String password;
+
     private Collection<? extends GrantedAuthority> roles;
 
     public AccountPrinciple(String username, String password,

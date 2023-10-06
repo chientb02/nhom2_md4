@@ -216,16 +216,11 @@ function displayImg(id) {
 }
 
 let arr;
-
-
-
 function displayAll1() {
-    let acc = localStorage.getItem("account");
     $.ajax({
         url: "http://localhost:8080/api/homes",
         type: "GET",
         success: function (data) {
-            console.log(data)
             arr = data
             let content = `<h2>List home</h2>`
             content += `<table><tr>
@@ -241,11 +236,9 @@ function displayAll1() {
                         <th>Account</th>
                         <th colspan="2">Action</th>
                         </tr>`
-            let j = 1;
             for (let i = 0; i < data.length; i++) {
-                if (data[i].deleted === null) {
-                    content += `<tr>
-                        <td>${j++}</td>
+                content += `<tr>
+                        <td>${i + 1}</td>
                         <td>${data[i].name}</td>
                         <td>${data[i].address.name} ${data[i].address.city.name}</td>
                         <td>${data[i].bedroom_count}</td>
@@ -255,22 +248,19 @@ function displayAll1() {
                         <td><p id="\img${data[i].idHome}\"></p></td>
 
                         <td>${data[i].status.name}</td>
-                        <td>${data[i].account.username}</td>
+                        <td>${data[i].account}</td>
                         
-                        <td><button onclick="updateH(${data[i].id})">Update</button></td>
-                        <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
+                        <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
+                        <td><button onclick="deleteProduct(${data[i].id})">Delete</button></td>
                         </tr>`
-                    displayImg(data[i].idHome);
-                }
+                displayImg(data[i].idHome);
             }
             content += `</table>`
             document.getElementById("homes").innerHTML = content
         }
     })
 }
-
 displayAddress()
-
 function displayCity() {
     $.ajax({
         type: "GET",
@@ -279,7 +269,7 @@ function displayCity() {
             let content = "<label for='select_city'>Thành phố</label><br>"
             content += '<select id="select_city" onchange="displayDistrict()"  class="form-select">';
             content += `<option>--Chọn thành phố--</option>`;
-            for (let i = 0; i < data.length; i++) {
+            for (let i = 0; i<data.length; i++) {
 
                 content += `<option value = ${data[i].idCity}> ${data[i].name} </option>`;
             }
@@ -289,7 +279,6 @@ function displayCity() {
 
     })
 }
-
 function displayDistrict() {
     let idCity = $('#select_city').val();
     $.ajax({
@@ -298,7 +287,7 @@ function displayDistrict() {
         success: function (data) {
             let content = "<label for='select_district'>Quận/huyện</label><br>"
             content += '<select id="select_district"  class="form-select">';
-            for (let i = 0; i < data.length; i++) {
+            for (let i = 0; i<data.length; i++) {
                 content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
             }
             content += '</select>'
@@ -306,7 +295,6 @@ function displayDistrict() {
         }
     })
 }
-
 function displayStatus() {
     $.ajax({
         type: "GET",
@@ -315,7 +303,7 @@ function displayStatus() {
             let content = "<label for='select_status'>Trạng thái</label><br>"
             content += '<select id="select_status" class="form-select">';
             content += `<option>--Chọn trạng thái--</option>`;
-            for (let i = 0; i < data.length; i++) {
+            for (let i = 0; i<data.length; i++) {
                 content += `<option value = ${data[i].idStatus}> ${data[i].name} </option>`;
             }
             content += '</select>'
@@ -324,13 +312,11 @@ function displayStatus() {
 
     })
 }
-
 function displayAddress() {
     displayCity();
     displayDistrict();
     displayStatus()
 }
-
 function save() {
     let home
     let name = $("#name").val()
@@ -343,7 +329,6 @@ function save() {
     let files = $("#file")[0].files
 
     let formData = new FormData()
-
 
     for (let i = 0; i < files.length; i++) {
         formData.append("image" + i, files[i])
@@ -363,7 +348,6 @@ function save() {
             bathroom_count: bathroom_count,
             description: description,
             price: price,
-
             address: {
                 idAddress: district
             },
@@ -387,11 +371,10 @@ function save() {
             }
         }
     }
-    let acc = localStorage.getItem("account");
+
 
     formData.append("homes",
         new Blob([JSON.stringify(home)], {type: 'application/json'}))
-    formData.append("account", acc)
 
     $.ajax({
         url: "http://localhost:8080/api/homes",
@@ -408,30 +391,18 @@ function save() {
     document.getElementById("form").reset()
     event.preventDefault()
 }
+function displayImg(id) {
+    var settings = {
+        "url": `http://localhost:8080/api/homes/img/${id}`,
+        "method": "GET",
+        "timeout": 0,
+    };
 
-function deleteH(id) {
-    $.ajax({
-        url: `http://localhost:8080/api/homes/delete/${id}`,
-        type: "GET",
-        success: function () {
-            alert("Delete successfully!")
-            displayAll1()
+    $.ajax(settings).done(function (response) {
+        let content = "";
+        for (let i = 0; i < response.length; i++) {
+            content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
         }
-    })
+        document.getElementById("img" + id).innerHTML = content;
+    });
 }
-
-// function displayImg(id) {
-//     var settings = {
-//         "url": `http://localhost:8080/api/homes/img/${id}`,
-//         "method": "GET",
-//         "timeout": 0,
-//     };
-//
-//     $.ajax(settings).done(function (response) {
-//         let content = "";
-//         for (let i = 0; i < response.length; i++) {
-//             content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
-//         }
-//         document.getElementById("img" + id).innerHTML = content;
-//     });
-// }
