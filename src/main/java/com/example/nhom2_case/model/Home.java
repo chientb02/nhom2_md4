@@ -1,6 +1,5 @@
 package com.example.nhom2_case.model;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +16,7 @@ public class Home {
     private String description;
     private double price;
     @Transient
-    private List<Image> image = new ArrayList<>();
+    private List<Image> image;
     @ManyToOne
     private Status status;
 
@@ -119,5 +118,4 @@ public class Home {
     public void setAccount(Account account) {
         this.account = account;
     }
-
 }

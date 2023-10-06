@@ -43,3 +43,63 @@ function displayAll1() {
         }
     })
 }
+function save() {
+    let home
+    let name = $("#name").val()
+    let bedroom_count = $("#bedroom_count").val()
+    let bathroom_count = $("#bathroom_count").val()
+    let description = $("#description").val()
+    let price = $("#price").val()
+    let files = $("#file")[0].files
+
+    let formData = new FormData()
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append("image" + i, files[i])
+    }
+
+    let id = +localStorage.getItem("idUpdate")
+
+    if (file === undefined) {
+        file = new File([], "", undefined)
+    }
+
+    if (id !== -1) {
+        home = {
+            id: id,
+            name: name,
+            bedroom_count: bedroom_count,
+            bathroom_count: bathroom_count,
+            description: description,
+            price: price,
+            image: localStorage.getItem("img")
+        }
+    } else {
+        home = {
+            name: name,
+            bedroom_count: bedroom_count,
+            bathroom_count: bathroom_count,
+            description: description,
+            price: price,
+        }
+    }
+
+
+    formData.append("homes",
+        new Blob([JSON.stringify(home)], {type: 'application/json'}))
+
+    $.ajax({
+        url: "http://localhost:8080/api/homes",
+        type: "POST",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function () {
+            alert("Create successfully!")
+            displayAll()
+            localStorage.setItem("idUpdate", "-1")
+        }
+    })
+    document.getElementById("form").reset()
+    event.preventDefault()
+}
