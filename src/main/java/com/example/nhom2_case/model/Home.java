@@ -118,4 +118,7 @@ public class Home {
     public void setAccount(Account account) {
         this.account = account;
     }
+    public boolean add(Image image) {
+        return image.getHome().add(image);
+    }
 }
