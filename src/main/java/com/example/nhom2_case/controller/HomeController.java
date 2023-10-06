@@ -1,8 +1,10 @@
 package com.example.nhom2_case.controller;
 
+import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.Home;
 import com.example.nhom2_case.model.Image;
 import com.example.nhom2_case.model.User;
+import com.example.nhom2_case.security.repository.IAccountRepository;
 import com.example.nhom2_case.service.IHomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,9 @@ public class HomeController {
     private IHomeService homeService;
     @Value("${upload.path}")
     private String upload;
+
+    @Autowired
+    private IAccountRepository accountRepository ;
     @GetMapping
     public ResponseEntity<Iterable<Home>> findAll() {
         return new ResponseEntity<>(homeService.findAll(), HttpStatus.OK);
@@ -42,28 +47,40 @@ public class HomeController {
     @PostMapping
     public ResponseEntity<?> save(@RequestPart("homes") Home home,
                                   @RequestPart(value = "file", required = false) MultipartFile file) {
-        getImagePath(home, file);
+//        getImagePath(home, file);
         homeService.save(home);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    private void getImagePath(Home home, MultipartFile file) {
-        List<Image> list = new ArrayList<>();
-        List<Image> list2 = new ArrayList<>();
-        if (file.getSize() == 0) {
-            if (Objects.equals(home.getIdHome(), null)) {
-                list2.add(new Image("oto2.jpg"));
-                home.setImage(list2);
-            }
+
+    @GetMapping("/findAcc/{idAcc}")
+    public Account findAcc(@PathVariable Long idAcc) {
+        Optional<Account> acc = accountRepository.findById(idAcc);
+        if (acc.isPresent()) {
+            return acc.get();
         } else {
-            String name = file.getOriginalFilename();
-            try {
-                FileCopyUtils.copy(file.getBytes(), new File(upload + name));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            list.add(new Image(name));
-            home.setImage(list);
+            return null;
         }
     }
+
+
+//    private void getImagePath(Home home, MultipartFile file) {
+//        List<Image> list = new ArrayList<>();
+//        List<Image> list2 = new ArrayList<>();
+//        if (file.getSize() == 0) {
+//            if (Objects.equals(home.getIdHome(), null)) {
+//                list2.add(new Image("oto2.jpg"));
+//                home.setImage(list2);
+//            }
+//        } else {
+//            String name = file.getOriginalFilename();
+//            try {
+//                FileCopyUtils.copy(file.getBytes(), new File(upload + name));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            list.add(new Image(name));
+//            home.setImage(list);
+//        }
+//    }
 
 }
