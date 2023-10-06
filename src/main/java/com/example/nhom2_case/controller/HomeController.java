@@ -4,6 +4,7 @@ import com.example.nhom2_case.model.Home;
 import com.example.nhom2_case.model.Image;
 import com.example.nhom2_case.repository.ImageRepository;
 import com.example.nhom2_case.security.repository.IAccountRepository;
+import com.example.nhom2_case.security.service.IAccountService;
 import com.example.nhom2_case.service.IHomeService;
 import com.example.nhom2_case.service.IImage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import java.util.Optional;
 @CrossOrigin("*")
 @RequestMapping("/api/homes")
 public class HomeController {
+    @Autowired
+    IAccountService accountService;
     @Autowired
     private IImage image;
     @Autowired
@@ -55,7 +58,9 @@ public class HomeController {
     }
     @PostMapping
     public ResponseEntity<?> save(@RequestPart("homes") Home home,
+                                  @RequestPart("account") String name,
                                   HttpServletRequest request) {
+        home.setAccount(accountService.findByUsername(name));
         Home homeDB = homeService.saveWithImg(home);
         List<MultipartFile> files = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

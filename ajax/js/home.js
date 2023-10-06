@@ -203,10 +203,12 @@ function displayImg(id) {
 
 let arr;
 function displayAll1() {
+    let acc = localStorage.getItem("account");
     $.ajax({
         url: "http://localhost:8080/api/homes",
         type: "GET",
         success: function (data) {
+            console.log(data)
             arr = data
             let content = `<h2>List home</h2>`
             content += `<table><tr>
@@ -234,7 +236,7 @@ function displayAll1() {
                         <td><p id="\img${data[i].idHome}\"></p></td>
 
                         <td>${data[i].status.name}</td>
-                        <td>${data[i].account}</td>
+                        <td>${data[i].account.username}</td>
                         
                         <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
                         <td><button onclick="deleteProduct(${data[i].id})">Delete</button></td>
@@ -316,6 +318,7 @@ function save() {
 
     let formData = new FormData()
 
+
     for (let i = 0; i < files.length; i++) {
         formData.append("image" + i, files[i])
     }
@@ -334,6 +337,7 @@ function save() {
             bathroom_count: bathroom_count,
             description: description,
             price: price,
+
             address: {
                 idAddress: district
             },
@@ -357,10 +361,11 @@ function save() {
             }
         }
     }
-
+    let acc = localStorage.getItem("account");
 
     formData.append("homes",
         new Blob([JSON.stringify(home)], {type: 'application/json'}))
+    formData.append("account", acc)
 
     $.ajax({
         url: "http://localhost:8080/api/homes",
