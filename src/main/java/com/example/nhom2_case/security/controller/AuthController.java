@@ -18,6 +18,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/auth")
@@ -52,7 +55,11 @@ public class AuthController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> register(@RequestBody Account user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Set<Role> roleSet = new HashSet<>();
+
+
         userService.save(user);
+        userService.addAcc(user);
         return new ResponseEntity<>("Vui lòng quay lại trang đăng nhập", HttpStatus.OK);
     }
 

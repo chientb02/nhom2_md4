@@ -9,6 +9,8 @@ public interface IAccountService {
     Account toDTO(Account account);
 
     void save(Account user);
+    void addAcc(Account account) ;
 
     Account findById(Long id);
+
 }

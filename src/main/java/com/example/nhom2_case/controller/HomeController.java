@@ -1,10 +1,13 @@
 package com.example.nhom2_case.controller;
 
+import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.Home;
 import com.example.nhom2_case.model.Image;
 import com.example.nhom2_case.model.User;
 import com.example.nhom2_case.repository.ImageRepository;
+import com.example.nhom2_case.security.repository.IAccountRepository;
 import com.example.nhom2_case.service.IHomeService;
+import com.example.nhom2_case.service.IImage;
 import com.example.nhom2_case.service.IImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +41,9 @@ public class HomeController {
     @Autowired
     private ImageRepository imageRepository;
 
+
+    @Autowired
+    private IAccountRepository accountRepository ;
     @GetMapping
     public ResponseEntity<Iterable<Home>> findAll() {
         return new ResponseEntity<>(homeService.findAll(), HttpStatus.OK);
@@ -83,6 +89,19 @@ public class HomeController {
             Image image = new Image(img);
             image.setHome(home);
             images.add(image);
+                                  @RequestPart(value = "file", required = false) MultipartFile file) {
+//        getImagePath(home, file);
+        homeService.save(home);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/findAcc/{idAcc}")
+    public Account findAcc(@PathVariable Long idAcc) {
+        Optional<Account> acc = accountRepository.findById(idAcc);
+        if (acc.isPresent()) {
+            return acc.get();
+        } else {
+            return null;
         }
         imageRepository.saveAll(images);
     }
