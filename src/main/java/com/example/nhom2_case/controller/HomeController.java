@@ -3,7 +3,9 @@ package com.example.nhom2_case.controller;
 import com.example.nhom2_case.model.Home;
 import com.example.nhom2_case.model.Image;
 import com.example.nhom2_case.model.User;
+import com.example.nhom2_case.repository.ImageRepository;
 import com.example.nhom2_case.service.IHomeService;
+import com.example.nhom2_case.service.IImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -11,8 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,9 +28,16 @@ import java.util.Optional;
 @RequestMapping("/api/homes")
 public class HomeController {
     @Autowired
+    private IImage image;
+    @Autowired
     private IHomeService homeService;
+
     @Value("${upload.path}")
     private String upload;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
     @GetMapping
     public ResponseEntity<Iterable<Home>> findAll() {
         return new ResponseEntity<>(homeService.findAll(), HttpStatus.OK);
@@ -41,29 +53,38 @@ public class HomeController {
     }
     @PostMapping
     public ResponseEntity<?> save(@RequestPart("homes") Home home,
-                                  @RequestPart(value = "file", required = false) MultipartFile file) {
-        getImagePath(home, file);
-        homeService.save(home);
+                                  HttpServletRequest request) {
+        Home homeDB = homeService.saveWithImg(home);
+        List<MultipartFile> files = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            MultipartFile file = ((MultipartHttpServletRequest) request).getFile("image" + i);
+            if (file !=  null) {
+                files.add(file);
+            } else {
+                break;
+            }
+        }
+        getImagePath(homeDB, files);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    private void getImagePath(Home home, MultipartFile file) {
-        List<Image> list = new ArrayList<>();
-        List<Image> list2 = new ArrayList<>();
-        if (file.getSize() == 0) {
-            if (Objects.equals(home.getIdHome(), null)) {
-                list2.add(new Image("oto2.jpg"));
-                home.setImage(list2);
-            }
-        } else {
-            String name = file.getOriginalFilename();
+    @GetMapping("/img/{id}")
+    public List<Image> images(@PathVariable Long id) {
+        return imageRepository.images(id);
+    }
+    private void getImagePath(Home home, List<MultipartFile> files) {
+        List<Image> images = new ArrayList<>();
+        for (MultipartFile f:files) {
+            String img = f.getOriginalFilename();
             try {
-                FileCopyUtils.copy(file.getBytes(), new File(upload + name));
-            } catch (Exception e) {
+                FileCopyUtils.copy(f.getBytes(), new File(upload + img));
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            list.add(new Image(name));
-            home.setImage(list);
+            Image image = new Image(img);
+            image.setHome(home);
+            images.add(image);
         }
+        imageRepository.saveAll(images);
     }
 
     @GetMapping("/search/{search}")

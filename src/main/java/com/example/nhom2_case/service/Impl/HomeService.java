@@ -11,6 +11,7 @@ import java.util.Optional;
 public class HomeService implements IHomeService {
     @Autowired
     HomeRepository homeRepository;
+
     @Override
     public Iterable<Home> findAll() {
         return homeRepository.findAll();
@@ -29,6 +30,11 @@ public class HomeService implements IHomeService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Home saveWithImg(Home home) {
+        return homeRepository.save(home);
     }
 
     @Override
