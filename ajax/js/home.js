@@ -23,14 +23,14 @@ function displayAll1() {
                 content += `<tr>
                         <td>${i + 1}</td>
                         <td>${data[i].name}</td>
-                        <td>${data[i].address}</td>
+                        <td>${data[i].address.name} ${data[i].address.city.name}</td>
                         <td>${data[i].bedroom_count}</td>
                         <td>${data[i].bathroom_count}</td>
                         <td>${data[i].description}</td>
                         <td>${data[i].price}</td>
                         <td><p id="\img${data[i].idHome}\"></p></td>
 
-                        <td>${data[i].status}</td>
+                        <td>${data[i].status.name}</td>
                         <td>${data[i].account}</td>
                         
                         <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
@@ -43,6 +43,63 @@ function displayAll1() {
         }
     })
 }
+displayAddress()
+function displayCity() {
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/api/cities`,
+        success: function (data) {
+            let content = "<label for='select_city'>Thành phố</label><br>"
+            content += '<select id="select_city" onchange="displayDistrict()"  class="form-select">';
+            content += `<option>--Chọn thành phố--</option>`;
+            for (let i = 0; i<data.length; i++) {
+
+                content += `<option value = ${data[i].idCity}> ${data[i].name} </option>`;
+            }
+            content += '</select>'
+            document.getElementById("city").innerHTML = content;
+        }
+
+    })
+}
+function displayDistrict() {
+    let idCity = $('#select_city').val();
+    $.ajax({
+        type: "POST",
+        url: `http://localhost:8080/api/addresses/city/${idCity}`,
+        success: function (data) {
+            let content = "<label for='select_district'>Quận/huyện</label><br>"
+            content += '<select id="select_district"  class="form-select">';
+            for (let i = 0; i<data.length; i++) {
+                content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
+            }
+            content += '</select>'
+            document.getElementById("district").innerHTML = content;
+        }
+    })
+}
+function displayStatus() {
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/api/status`,
+        success: function (data) {
+            let content = "<label for='select_status'>Trạng thái</label><br>"
+            content += '<select id="select_status" class="form-select">';
+            content += `<option>--Chọn trạng thái--</option>`;
+            for (let i = 0; i<data.length; i++) {
+                content += `<option value = ${data[i].idStatus}> ${data[i].name} </option>`;
+            }
+            content += '</select>'
+            document.getElementById("status").innerHTML = content;
+        }
+
+    })
+}
+function displayAddress() {
+    displayCity();
+    displayDistrict();
+    displayStatus()
+}
 function save() {
     let home
     let name = $("#name").val()
@@ -50,6 +107,8 @@ function save() {
     let bathroom_count = $("#bathroom_count").val()
     let description = $("#description").val()
     let price = $("#price").val()
+    let district = $("#select_district").val()
+    let status = $("#select_status").val()
     let files = $("#file")[0].files
 
     let formData = new FormData()
@@ -72,6 +131,12 @@ function save() {
             bathroom_count: bathroom_count,
             description: description,
             price: price,
+            address: {
+                idAddress: district
+            },
+            status: {
+                idStatus: status
+            },
             image: localStorage.getItem("img")
         }
     } else {
@@ -81,6 +146,12 @@ function save() {
             bathroom_count: bathroom_count,
             description: description,
             price: price,
+            address: {
+                idAddress: district
+            },
+            status: {
+                idStatus: status
+            }
         }
     }
 
