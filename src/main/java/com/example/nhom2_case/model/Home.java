@@ -15,6 +15,8 @@ public class Home {
     private int bathroom_count;
     private String description;
     private double price;
+    @Column(columnDefinition = "integer default 0")
+    private Integer deleted ;
     @Transient
     private List<Image> image;
     @ManyToOne
@@ -24,6 +26,14 @@ public class Home {
     private Account account ;
 
     public Home() {
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 
     public Home(Long idHome, String name, Address address, int bedroom_count, int bathroom_count, String description, double price, List<Image> image, Status status, Account account) {
