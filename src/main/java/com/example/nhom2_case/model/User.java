@@ -11,8 +11,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser ;
-    @OneToOne
-    private Account account ;
     private String fullName ;
     private String avatar ;
     private String sex ;
@@ -35,13 +33,6 @@ public class User {
         this.changeRole = changeRole;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
     public Long getIdUser() {
         return idUser;

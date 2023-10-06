@@ -18,7 +18,7 @@ public interface IAccountRepository extends JpaRepository<Account, Long> {
     void addAcc(Long idAcc ,Long idRole);
 
     @Modifying
-    @Query(value = "insert into user (account_id) values (?1)",nativeQuery = true)
+    @Query(value = "insert into user (id_user) values (?1)",nativeQuery = true)
     void addUser(Long idAcc );
 
 
