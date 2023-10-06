@@ -29,6 +29,11 @@ public class AccountServiceImpl implements UserDetailsService, IAccountService {
 
     public void save(Account user) {
         iUserRepository.save(user);
+
+    }
+    public void addAcc(Account account) {
+
+        iUserRepository.addAcc(account.getId() , 2L);
     }
 
     public UserDetails loadUserByUsername(String username) {
