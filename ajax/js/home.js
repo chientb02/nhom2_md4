@@ -384,4 +384,3 @@ function save() {
     event.preventDefault()
 }
 
-function rentHome()
