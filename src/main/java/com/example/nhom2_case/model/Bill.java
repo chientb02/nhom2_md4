@@ -11,6 +11,7 @@ public class Bill {
     @ManyToOne
     private Home home;
 
+
     @ManyToOne
     private Account account ;
     private LocalDate checkin;
