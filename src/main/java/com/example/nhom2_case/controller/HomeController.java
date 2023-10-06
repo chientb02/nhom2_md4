@@ -86,7 +86,9 @@ public class HomeController {
             image.setHome(home);
             images.add(image);
 
-    }}
+    }
+        imageRepository.saveAll(images);
+    }
 
     @GetMapping("/findAcc/{idAcc}")
     public Account findAcc(@PathVariable Long idAcc) {

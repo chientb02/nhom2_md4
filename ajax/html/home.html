@@ -8,12 +8,6 @@
 </head>
 <body onload="displayAll1()">
 <div id="homes"></div>
-
-
-<!--<form method="POST" action="/upload" enctype="multipart/form-data">-->
-<!--  <input type="file" name="files" multiple>-->
-<!--  <button type="submit">Upload</button>-->
-<!--</form>-->
 <div>
     <form id="form">
         <h2>Form create</h2>
@@ -34,6 +28,16 @@
 
         <label for="file">Image</label>
         <input type="file" id="file" multiple><br>
+
+        <div class="form-outline">
+            <div id="city"></div>
+        </div>
+        <div class="form-outline">
+            <div id="district"></div>
+        </div>
+        <div class="form-outline">
+            <div id="status"></div>
+        </div>
 
         <button onclick="save()">Create</button>
     </form>
