@@ -193,9 +193,9 @@ function showHome(data) {
     document.getElementById("homes").innerHTML = content
 }
 
-function displayImg(id) {
+function displayImg(idHome) {
     var settings = {
-        "url": `http://localhost:8080/api/homes/img/${id}`,
+        "url": `http://localhost:8080/api/homes/img/${idHome}`,
         "method": "GET",
         "timeout": 0,
     };
@@ -204,10 +204,11 @@ function displayImg(id) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
             content += `<img style="height: 200px"  src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
-            document.getElementById("img" + id).innerHTML = content;
+
+            console.log(content)
             break;
         }
-
+        document.getElementById("img"+idHome).innerHTML = content;
     });
 }
 
@@ -237,6 +238,7 @@ function displayAll1() {
                         <th colspan="2">Action</th>
                         </tr>`
             let j = 1;
+
             for (let i = 0; i < data.length; i++) {
                 if (data[i].deleted == null) {
 
@@ -249,14 +251,17 @@ function displayAll1() {
                         <td>${data[i].description}</td>
                         <td>${data[i].price}</td>
                         <td><p id="\img${data[i].idHome}\"></p></td>
+                       
 
                         <td>${data[i].status.name}</td>
-                        <td>${data[i].account.username}</td>
+                        <td>${data[i].account}</td>
                         
                         <td><button onclick="updateH(${data[i].idHome})">Update</button></td>
                         <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
                         </tr>`
                     displayImg(data[i].idHome);
+
+
                 }
             }
             content += `</table>`

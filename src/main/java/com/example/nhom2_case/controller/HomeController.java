@@ -76,6 +76,7 @@ public class HomeController {
     }
     @GetMapping("/img/{id}")
     public List<Image> images(@PathVariable Long id) {
+
         return imageRepository.images(id);
     }
     private void getImagePath(Home home, List<MultipartFile> files) {
