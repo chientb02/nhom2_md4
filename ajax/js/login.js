@@ -33,3 +33,8 @@ function getAcc (){
     $.ajax(settings).done(function (response) {
     });
 }
+
+function logout () {
+    localStorage.removeItem("token");
+    window.location.href = "login.html"
+}
