@@ -45,12 +45,6 @@ function Filter() {
     if(idStatus === "--Chọn trạng thái--") {
         idStatus = null;
     }
-    if (minPrice === 0) {
-        minPrice = null;
-    }
-    if (maxPrice === 0) {
-        maxPrice = null;
-    }
     if (count_bathroom === "Chọn số phòng"){
         count_bathroom = null;
     }
