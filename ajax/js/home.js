@@ -18,20 +18,8 @@ function DisplayAllHomestay() {
 }
 
 function detailHome(id) {
-    $.ajax({
-        url: `http://localhost:8080/api/homes/${id}`,
-        type:"GET",
-        success: function (data){
-            $("nameDetail").val(`${data.name}`)
-            $("descriptionDetail").val(`${data.description}`)
-            $("priceDetail").val(`Gia: ${data.price}`)
-            $("addressDetail").val(` ${data.address.name}`)
-            $("cityDetail").val(` ${data.address.city.name}`)
-            $("bedroom").val(` ${data.bedroom_count}`)
-            $("bathroom").val(` ${data.bathroom_count}`)
-
-        }
-    })
+     localStorage.setItem("idHome",id)
+    window.location.href="detailHomestay.html"
 }
 
 function findOne() {
@@ -81,11 +69,13 @@ function Filter() {
         type: "POST",
         data: JSON.stringify(newFilter),
         url: "http://localhost:8080/api/filters",
-        success: function (arr) {
-            if (arr == null) {
+        success: function (data) {
+            if (data == null) {
                 document.getElementById("homes").innerHTML = "Khong tim thay"
             } else {
-                showHome(arr);
+                numberPage = 0;
+                arrHome = data;
+                listDisplayPage = data.reverse();
                 showPage();
             }
         }
@@ -99,7 +89,9 @@ function searchByName() {
         url: `http://localhost:8080/api/homes/search/${search}`,
         type: "GET",
         success: function (data) {
-            showHome(data);
+            numberPage = 0;
+            arrHome = data;
+            listDisplayPage = data.reverse();
             showPage();
         }
     })
@@ -171,9 +163,7 @@ function showHome(data) {
 <div class="col-xl-3 col-lg-4 col-md-6">
     <div class="product-item">
         <p class="position-relative bg-light overflow-hidden">
-        <p id="\img${data[i].idHome}\"></p>
-           
-            <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>
+        <div id="\img${data[i].idHome}\"></div>
         </div>
         <div class="text-center p-4">
             <span class="d-block h5 mb-2">${data[i].name}</span>
@@ -215,11 +205,16 @@ function displayImg(id) {
 }
 
 let arr;
+
+
+
 function displayAll1() {
+    let acc = localStorage.getItem("account");
     $.ajax({
         url: "http://localhost:8080/api/homes",
         type: "GET",
         success: function (data) {
+            console.log(data)
             arr = data
             let content = `<h2>List home</h2>`
             content += `<table><tr>
@@ -251,7 +246,7 @@ function displayAll1() {
                         <td>${data[i].status.name}</td>
                         <td>${data[i].account.username}</td>
                         
-                        <td><button onclick="updateH(${data[i].idHome})">Update</button></td>
+                        <td><button onclick="updateH(${data[i].id})">Update</button></td>
                         <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
                         </tr>`
                     displayImg(data[i].idHome);
@@ -262,7 +257,9 @@ function displayAll1() {
         }
     })
 }
+
 displayAddress()
+
 function displayCity() {
     $.ajax({
         type: "GET",
@@ -349,7 +346,7 @@ function save() {
 
     if (id !== -1) {
         home = {
-            idHome: id,
+            id: id,
             name: name,
             bedroom_count: bedroom_count,
             bathroom_count: bathroom_count,
@@ -408,20 +405,6 @@ function deleteH(id) {
         success: function () {
             alert("Delete successfully!")
             displayAll1()
-        }
-    })
-}
-function updateH(id) {
-    $.ajax({
-        url: `http://localhost:8080/api/homes/${id}`,
-        type: "GET",
-        success: function (data) {
-            document.getElementById("name").value = data.name
-            document.getElementById("bedroom_count").value = data.bedroom_count
-            document.getElementById("bathroom_count").value = data.bathroom_count
-            document.getElementById("description").value = data.description
-            document.getElementById("price").value = data.price
-            localStorage.setItem("idUpdate", data.idHome)
         }
     })
 }
