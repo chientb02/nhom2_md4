@@ -50,7 +50,7 @@
         <div class="container py-5 h-100">
             <div class="row justify-content-center align-items-center h-100">
                 <div class="col-12 col-lg-9 col-xl-7">
-                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px; margin-top: 25px">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Tạo 1 HomeStay</h3>
                             <form>
@@ -62,16 +62,16 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6 mb-4">
+                                    <div class="col-md-3 mb-4">
                                         <div class="form-outline">
-                                            <label class="form-label" for="bedroom_count">Phòng ngủ</label>
+                                            <label class="form-label" for="bedroom_count"> Số phòng ngủ</label>
                                             <input type="text" id="bedroom_count" class="form-control form-control-lg" />
 
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-4">
+                                    <div class="col-md-3 mb-4">
                                         <div class="form-outline">
-                                            <label class="form-label" for="bedroom_count">Phòng tắm</label>
+                                            <label class="form-label" for="bedroom_count">Số phòng tắm</label>
                                             <input type="text" id="bathroom_count" class="form-control form-control-lg" />
                                         </div>
                                     </div>
@@ -103,14 +103,15 @@
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
-                                            <div id="district"></div>
+                                            <div id="status"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <div class="form-outline">
-                                            <div id="status"></div>
+                                            <div id="district"></div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="mt-4 pt-2" style="text-align: center">
                                     <input class="btn btn-primary btn-lg" onclick="save()" type="submit" value="Submit" />
@@ -145,7 +146,7 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
-<script src="js/address.js"></script>
+<!--<script src="js/address.js"></script>-->
 <script src="js/home.js"></script>
 <script src="js/layout.js"></script>
 </body>
