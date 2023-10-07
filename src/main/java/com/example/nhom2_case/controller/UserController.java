@@ -28,6 +28,10 @@ public class UserController {
     public ResponseEntity<Iterable<User>> findByUser(@PathVariable Long id) {
         return new ResponseEntity<>(userService.findByAccount(id), HttpStatus.OK);
     }
+    @GetMapping("/roleAdm")
+    public ResponseEntity<Iterable<User>> findByUser() {
+        return new ResponseEntity<>(userService.findByAdm(), HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findOne(@PathVariable Long id) {
