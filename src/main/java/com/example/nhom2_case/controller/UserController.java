@@ -24,10 +24,13 @@ public class UserController {
     public ResponseEntity<Iterable<User>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/role/{id}")
+    public ResponseEntity<Iterable<User>> findByUser(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.findByAccount(id), HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findOne(@PathVariable Long id) {
-
         Optional<User> user = userService.findOne(id);
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
@@ -42,6 +45,7 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
     private void getImagePath(User user, MultipartFile file) {
         if (file.getSize() == 0) {
             if (Objects.equals(user.getIdUser(), null)) {
