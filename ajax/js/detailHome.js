@@ -11,13 +11,10 @@ function displayDetail() {
         success: function (data) {
             document.getElementById("detail").innerHTML=`<div class="col-md-6 border-end" >
                 <div class="d-flex flex-column justify-content-center">
-                    <div class="main_image" id="imageMain">                    </div>
+                    <div class="main_image" id="imageMain"></div>
                     <div class="thumbnail_images">
                         <ul id="thumbnail">
-                            <li><img onclick="changeImage(this)" src="https://i.imgur.com/TAzli1U.jpg" width="70"></li>
-                            <li><img onclick="changeImage(this)" src="https://i.imgur.com/w6kEctd.jpg" width="70"></li>
-                            <li><img onclick="changeImage(this)" src="https://i.imgur.com/L7hFD8X.jpg" width="70"></li>
-                            <li><img onclick="changeImage(this)" src="https://i.imgur.com/6ZufmNS.jpg" width="70"></li>
+                           
                         </ul>
                     </div>
                 </div>
@@ -50,6 +47,7 @@ function displayDetail() {
                 </div>
             </div>`
             displayOneImg(idHome)
+            displayImg(idHome)
         }
 
     })
@@ -72,9 +70,9 @@ function displayImg(id) {
     $.ajax(settings).done(function (response) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
-            content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+            content += `<li><img onclick="changeImage(this)" width="70" src="../../src/main/resources/static/image/${response[i].image}" alt=""/></li>`
         }
-        document.getElementById("img" + id).innerHTML = content;
+        document.getElementById("thumbnail").innerHTML = content;
     });
 }
 function displayOneImg(id) {
@@ -87,7 +85,8 @@ function displayOneImg(id) {
     $.ajax(settings).done(function (response) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
-            content += `<img id="main_product_image" width="350" src="../../src/main/resources/static/image/${response[0].image}" alt=""/>`
+            content += `<img id="main_product_image" width="350" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+            break
         }
         document.getElementById("imageMain").innerHTML = content;
     });
