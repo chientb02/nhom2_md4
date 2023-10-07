@@ -44,6 +44,7 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "                    <div class=\"dropdown-menu m-0\">\n" +
     "                        <a href=\"\" class=\"dropdown-item\">Profile</a>\n" +
     "                        <a href=\"\" class=\"dropdown-item\">Đăng xuất</a>\n" +
+    "                        <a href=\"historyBill.html\" class=\"dropdown-item\">Xem lịch sử mua hàng</a>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
