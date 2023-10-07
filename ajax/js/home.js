@@ -204,9 +204,10 @@ function displayImg(id) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
             content += `<img style="height: 200px"  src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+            document.getElementById("img" + id).innerHTML = content;
             break;
         }
-        document.getElementById("img" + id).innerHTML = content;
+
     });
 }
 
@@ -221,7 +222,6 @@ function displayAll1() {
         type: "GET",
         success: function (data) {
             console.log(data)
-            arr = data
             let content = `<h2>List home</h2>`
             content += `<table><tr>
                         <th>STT</th>
@@ -238,7 +238,8 @@ function displayAll1() {
                         </tr>`
             let j = 1;
             for (let i = 0; i < data.length; i++) {
-                if (data[i].deleted === null) {
+                if (data[i].deleted == null) {
+
                     content += `<tr>
                         <td>${j++}</td>
                         <td>${data[i].name}</td>
