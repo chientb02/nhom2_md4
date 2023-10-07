@@ -1,5 +1,7 @@
 package com.example.nhom2_case.controller;
+import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.User;
+import com.example.nhom2_case.repository.AccountRepository;
 import com.example.nhom2_case.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +22,9 @@ public class UserController {
     private IUserService userService;
     @Value("${upload.path}")
     private String upload;
+
+    @Autowired
+    private AccountRepository accountRepository ;
     @GetMapping
     public ResponseEntity<Iterable<User>> findAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
@@ -50,6 +55,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PostMapping("/allow")
+    public ResponseEntity<?> save(@RequestBody Account account) {
+        accountRepository.save(account);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
     private void getImagePath(User user, MultipartFile file) {
         if (file.getSize() == 0) {
             if (Objects.equals(user.getIdUser(), null)) {

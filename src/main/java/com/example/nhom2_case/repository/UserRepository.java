@@ -3,6 +3,7 @@ package com.example.nhom2_case.repository;
 import com.example.nhom2_case.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,4 +23,7 @@ public interface UserRepository extends JpaRepository <User , Long> {
             " ((account inner join user on account.id = user.account_id )\n" +
             "inner join account_roles on account.id = account_roles.account_id ) where account_roles.roles_id != 1  ; " , nativeQuery = true)
     List<User> findUserByAdm ();
+
+
+
 }
