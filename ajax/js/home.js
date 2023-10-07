@@ -34,16 +34,28 @@ function Filter() {
     let count_bathroom = $("#bathroom").val();
     let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
-    if (idCity === "--Chọn thành phố--") {
+    if(idCity === "--Chọn thành phố--") {
         idCity = null;
     }
     let idDistrict = $('#select_district').val();
-    if (idDistrict === undefined) {
+    if(idDistrict === undefined) {
         idDistrict = null;
     }
     let idStatus = $('#select_status').val();
-    if (idStatus === "--Chọn trạng thái--") {
+    if(idStatus === "--Chọn trạng thái--") {
         idStatus = null;
+    }
+    if (minPrice === 0) {
+        minPrice = null;
+    }
+    if (maxPrice === 0) {
+        maxPrice = null;
+    }
+    if (count_bathroom === "Chọn số phòng"){
+        count_bathroom = null;
+    }
+    if (count_bedroom === "Chọn số phòng"){
+        count_bedroom = null;
     }
     newFilter = {
         minPrice: minPrice,
@@ -398,6 +410,52 @@ function save() {
     event.preventDefault()
 }
 
+function toBill(idHome) {
+    localStorage.setItem("idHome", idHome);
+    window.location.href = "bill.html";
+}
+function rentHome() {
+    let acc = localStorage.getItem("account");
+    let idHome = localStorage.getItem("idHome");
+    let dateNow = new Date();
+    let checkin = $("#checkin").val();
+    let checkin1 =  new Date(checkin)
+    if (checkin1 < dateNow) {
+        alert('Ngày checkin của bạn không hợp lệ');
+        return;
+    }
+    let checkout = $("#checkout").val();
+    let checkout1 =  new Date(checkout)
+    if (checkout1 <= checkin1) {
+        alert('Ngày checkout phải lớn hơn ngày checkin.');
+        return;
+    }
+    let newBill = {
+        checkin : checkin,
+        checkout : checkout
+    }
+    let formData = new FormData()
+    formData.append("bills",
+        new Blob([JSON.stringify(newBill)],
+            {type: 'application/json'}))
+    formData.append("account", acc)
+    $.ajax({
+        processData: false,
+        contentType: false,
+        type: "POST",
+        data: formData,
+        url: `http://localhost:8080/api/bills/${idHome}`,
+        success: function () {
+            alert("Yêu cầu thuê nhà của bạn đang được chủ nhà đồng ý!")
+            localStorage.removeItem("idHome");
+            showHome()
+
+
+        }
+
+
+    })
+}
 function deleteH(id) {
     $.ajax({
         url: `http://localhost:8080/api/homes/delete/${id}`,
@@ -409,18 +467,5 @@ function deleteH(id) {
     })
 }
 
-// function displayImg(id) {
-//     var settings = {
-//         "url": `http://localhost:8080/api/homes/img/${id}`,
-//         "method": "GET",
-//         "timeout": 0,
-//     };
-//
-//     $.ajax(settings).done(function (response) {
-//         let content = "";
-//         for (let i = 0; i < response.length; i++) {
-//             content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
-//         }
-//         document.getElementById("img" + id).innerHTML = content;
-//     });
-// }
+
+
