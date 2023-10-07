@@ -12,11 +12,14 @@ import java.util.Set;
         private String username;
         private String password;
 
+
         @ManyToMany(fetch = FetchType.EAGER)
         private Set<Role> roles;
 
         public Account() {
         }
+
+
 
         public Account(Long id, String username, String password) {
             this.id = id;

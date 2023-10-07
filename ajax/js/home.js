@@ -2,7 +2,7 @@ let arrHome;
 let listDisplayPage;
 let numberPage;
 let totalPage;
-function demoDisplay() {
+function DisplayAllHomestay() {
     $.ajax({
         url: "http://localhost:8080/api/homes",
         type: "GET",
@@ -16,11 +16,10 @@ function demoDisplay() {
     })
 
 }
+
 function detailHome(id) {
-    $.ajax({
-        url: `http://localhost:8080/api/homes/${id}`,
-        type:"GET"
-    })
+     localStorage.setItem("idHome",id)
+    window.location.href="detailHomestay.html"
 }
 
 function findOne() {
@@ -35,15 +34,15 @@ function Filter() {
     let count_bathroom = $("#bathroom").val();
     let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
-    if(idCity === "--Chọn thành phố--") {
+    if (idCity === "--Chọn thành phố--") {
         idCity = null;
     }
     let idDistrict = $('#select_district').val();
-    if(idDistrict === undefined) {
+    if (idDistrict === undefined) {
         idDistrict = null;
     }
     let idStatus = $('#select_status').val();
-    if(idStatus === "--Chọn trạng thái--") {
+    if (idStatus === "--Chọn trạng thái--") {
         idStatus = null;
     }
     newFilter = {
@@ -70,11 +69,13 @@ function Filter() {
         type: "POST",
         data: JSON.stringify(newFilter),
         url: "http://localhost:8080/api/filters",
-        success: function (arr) {
-            if (arr == null) {
+        success: function (data) {
+            if (data == null) {
                 document.getElementById("homes").innerHTML = "Khong tim thay"
             } else {
-                showHome(arr);
+                numberPage = 0;
+                arrHome = data;
+                listDisplayPage = data.reverse();
                 showPage();
             }
         }
@@ -88,12 +89,15 @@ function searchByName() {
         url: `http://localhost:8080/api/homes/search/${search}`,
         type: "GET",
         success: function (data) {
-           showHome(data);
+            numberPage = 0;
+            arrHome = data;
+            listDisplayPage = data.reverse();
             showPage();
         }
     })
     event.preventDefault();
 }
+
 function displayOneImg(id) {
     var settings = {
         "url": `http://localhost:8080/api/homes/img/${id}`,
@@ -135,9 +139,9 @@ function showFootPage() {
                      <button class="btn btn-outline-primary" id="next" onclick="nextPage(numberPage)">Next</button>
                      </div>`
     document.getElementById("footPage").innerHTML = content;
-    if (numberPage === 0){
+    if (numberPage === 0) {
         $("#previous").hide();
-    }else if (numberPage === totalPage - 1){
+    } else if (numberPage === totalPage - 1) {
         $("#next").hide();
     }
 }
@@ -159,9 +163,7 @@ function showHome(data) {
 <div class="col-xl-3 col-lg-4 col-md-6">
     <div class="product-item">
         <p class="position-relative bg-light overflow-hidden">
-        <p id="\img${data[i].idHome}\"></p>
-           
-            <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>
+        <div id="\img${data[i].idHome}\"></div>
         </div>
         <div class="text-center p-4">
             <span class="d-block h5 mb-2">${data[i].name}</span>
@@ -172,7 +174,7 @@ function showHome(data) {
         </div>
         <div class="d-flex border-top">
             <small class="w-50 text-center border-end py-2">
-                <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</a>
+                <button style="border: none;background: none" onclick="detailHome(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</button>
             </small>
             <small class="w-50 text-center py-2">
                 <a class="text-body" href=""><i class="far fa-heart"></i>  Thuê ngay</a>
@@ -184,6 +186,7 @@ function showHome(data) {
     }
     document.getElementById("homes").innerHTML = content
 }
+
 function displayImg(id) {
     var settings = {
         "url": `http://localhost:8080/api/homes/img/${id}`,
@@ -202,6 +205,9 @@ function displayImg(id) {
 }
 
 let arr;
+
+
+
 function displayAll1() {
     let acc = localStorage.getItem("account");
     $.ajax({
@@ -224,9 +230,11 @@ function displayAll1() {
                         <th>Account</th>
                         <th colspan="2">Action</th>
                         </tr>`
+            let j = 1;
             for (let i = 0; i < data.length; i++) {
-                content += `<tr>
-                        <td>${i + 1}</td>
+                if (data[i].deleted === null) {
+                    content += `<tr>
+                        <td>${j++}</td>
                         <td>${data[i].name}</td>
                         <td>${data[i].address.name} ${data[i].address.city.name}</td>
                         <td>${data[i].bedroom_count}</td>
@@ -238,17 +246,20 @@ function displayAll1() {
                         <td>${data[i].status.name}</td>
                         <td>${data[i].account.username}</td>
                         
-                        <td><button onclick="updateProduct(${data[i].id})">Update</button></td>
-                        <td><button onclick="deleteProduct(${data[i].id})">Delete</button></td>
+                        <td><button onclick="updateH(${data[i].id})">Update</button></td>
+                        <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
                         </tr>`
-                displayImg(data[i].idHome);
+                    displayImg(data[i].idHome);
+                }
             }
             content += `</table>`
             document.getElementById("homes").innerHTML = content
         }
     })
 }
+
 displayAddress()
+
 function displayCity() {
     $.ajax({
         type: "GET",
@@ -257,7 +268,7 @@ function displayCity() {
             let content = "<label for='select_city'>Thành phố</label><br>"
             content += '<select id="select_city" onchange="displayDistrict()"  class="form-select">';
             content += `<option>--Chọn thành phố--</option>`;
-            for (let i = 0; i<data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
 
                 content += `<option value = ${data[i].idCity}> ${data[i].name} </option>`;
             }
@@ -267,6 +278,7 @@ function displayCity() {
 
     })
 }
+
 function displayDistrict() {
     let idCity = $('#select_city').val();
     $.ajax({
@@ -275,7 +287,7 @@ function displayDistrict() {
         success: function (data) {
             let content = "<label for='select_district'>Quận/huyện</label><br>"
             content += '<select id="select_district"  class="form-select">';
-            for (let i = 0; i<data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
             }
             content += '</select>'
@@ -283,6 +295,7 @@ function displayDistrict() {
         }
     })
 }
+
 function displayStatus() {
     $.ajax({
         type: "GET",
@@ -291,7 +304,7 @@ function displayStatus() {
             let content = "<label for='select_status'>Trạng thái</label><br>"
             content += '<select id="select_status" class="form-select">';
             content += `<option>--Chọn trạng thái--</option>`;
-            for (let i = 0; i<data.length; i++) {
+            for (let i = 0; i < data.length; i++) {
                 content += `<option value = ${data[i].idStatus}> ${data[i].name} </option>`;
             }
             content += '</select>'
@@ -300,11 +313,13 @@ function displayStatus() {
 
     })
 }
+
 function displayAddress() {
     displayCity();
     displayDistrict();
     displayStatus()
 }
+
 function save() {
     let home
     let name = $("#name").val()
@@ -363,7 +378,6 @@ function save() {
     }
     let acc = localStorage.getItem("account");
 
-
     formData.append("homes",
         new Blob([JSON.stringify(home)], {type: 'application/json'}))
     formData.append("account", acc)
@@ -384,3 +398,29 @@ function save() {
     event.preventDefault()
 }
 
+function deleteH(id) {
+    $.ajax({
+        url: `http://localhost:8080/api/homes/delete/${id}`,
+        type: "GET",
+        success: function () {
+            alert("Delete successfully!")
+            displayAll1()
+        }
+    })
+}
+
+// function displayImg(id) {
+//     var settings = {
+//         "url": `http://localhost:8080/api/homes/img/${id}`,
+//         "method": "GET",
+//         "timeout": 0,
+//     };
+//
+//     $.ajax(settings).done(function (response) {
+//         let content = "";
+//         for (let i = 0; i < response.length; i++) {
+//             content += `<img style="width: 100px" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+//         }
+//         document.getElementById("img" + id).innerHTML = content;
+//     });
+// }

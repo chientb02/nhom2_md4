@@ -6,6 +6,7 @@ import com.example.nhom2_case.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,9 +32,8 @@ public class UserService implements IUserService {
     @Override
     public void delete(Long id) {
     }
-
     @Override
-    public User findByAccount(Long id) {
-        return userRepository.findUserByAccount_Id(id);
+    public List<User> findByAccount(Long id) {
+        return userRepository.findUserByRole(id);
     }
 }

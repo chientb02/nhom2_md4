@@ -34,7 +34,6 @@ public class User {
     public void setChangeRole(Integer changeRole) {
         this.changeRole = changeRole;
     }
-
     public Account getAccount() {
         return account;
     }
