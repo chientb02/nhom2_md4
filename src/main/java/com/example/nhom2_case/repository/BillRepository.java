@@ -1,5 +1,6 @@
 package com.example.nhom2_case.repository;
 
+import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.Bill;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,7 +15,7 @@ import java.util.List;
 @Transactional
 public interface BillRepository extends JpaRepository<Bill, Long> {
     @Modifying
-    @Query(value = "UPDATE home Set status_id_status = 1 WHERE id_home = :idHome", nativeQuery = true)
+    @Query(value = "UPDATE home Set status_id_status = 2 WHERE id_home = :idHome", nativeQuery = true)
     void updateStatusByIdHome(@Param("idHome") Long idHome);
 
     @Query(value = "SELECT * FROM bill b " +
@@ -23,4 +24,5 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
             "JOIN home h ON b.home_id_home = h.id_home " +
             "WHERE a.id = :id ",nativeQuery = true)
     List<Bill> getBill(@Param("id") Long id);
+
 }

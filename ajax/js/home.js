@@ -46,6 +46,18 @@ function Filter() {
     if(idStatus === "--Chọn trạng thái--") {
         idStatus = null;
     }
+    if (minPrice === 0) {
+        minPrice = null;
+    }
+    if (maxPrice === 0) {
+        maxPrice = null;
+    }
+    if (count_bathroom === "Chọn số phòng"){
+        count_bathroom = null;
+    }
+    if (count_bedroom === "Chọn số phòng"){
+        count_bedroom = null;
+    }
     newFilter = {
         minPrice: minPrice,
         maxPrice: maxPrice,
@@ -170,12 +182,14 @@ function showHome(data) {
             <span class="text-body"> Phòng tắm: ${data[i].bathroom_count}</span><br>
             <span class="text-body"> Địa chỉ: ${data[i].address.name},${data[i].address.city.name}</span>
         </div>
-        <div class="d-flex border-top">
+       <div class="d-flex border-top">
             <small class="w-50 text-center border-end py-2">
-                <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</a>
+                <button style="border: none;background: none" onclick="detailHome(${data[i].idHome})" class="text-body">
+                <i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</button>
             </small>
             <small class="w-50 text-center py-2">
-                <a class="text-body" href=""><i class="far fa-heart"></i>  Thuê ngay</a>
+                <button style="border: none;background: none" onclick="toBill(${data[i].idHome})" class="text-body">
+                <i class="fa fa-eye text-primary me-2"></i>Thuê ngay</button>
             </small>
         </div>
     </div>
@@ -383,4 +397,54 @@ function save() {
     document.getElementById("form").reset()
     event.preventDefault()
 }
+
+function toBill(idHome) {
+    localStorage.setItem("idHome", idHome);
+    window.location.href = "bill.html";
+}
+function rentHome() {
+    let acc = localStorage.getItem("account");
+    let idHome = localStorage.getItem("idHome");
+    let dateNow = new Date();
+    let checkin = $("#checkin").val();
+    let checkin1 =  new Date(checkin)
+    if (checkin1 < dateNow) {
+        alert('Ngày checkin của bạn không hợp lệ');
+        return;
+    }
+    let checkout = $("#checkout").val();
+    let checkout1 =  new Date(checkout)
+    if (checkout1 <= checkin1) {
+        alert('Ngày checkout phải lớn hơn ngày checkin.');
+        return;
+    }
+    let newBill = {
+        checkin : checkin,
+        checkout : checkout
+    }
+    let formData = new FormData()
+    formData.append("bills",
+        new Blob([JSON.stringify(newBill)],
+            {type: 'application/json'}))
+    formData.append("account", acc)
+    $.ajax({
+        processData: false,
+        contentType: false,
+        type: "POST",
+        data: formData,
+        url: `http://localhost:8080/api/bills/${idHome}`,
+        success: function () {
+            alert("Yêu cầu thuê nhà của bạn đang được chủ nhà đồng ý!")
+            localStorage.removeItem("idHome");
+            showHome()
+
+
+        }
+
+
+    })
+}
+
+
+
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,21 +48,24 @@ public class BillService implements IBillService {
     }
 
     @Override
-    public void rentHome(Long id, int count_month) {
-        Optional<Home> homeOptional = homeService.findOne(id);
-        if (homeOptional.isPresent()) {
-            Home home = homeOptional.get();
-            Bill bill = new Bill();
-            bill.setHome(home);
+    public void rentHome(Long id, LocalDate checkin, LocalDate checkout, Account account) {
+        LocalDate dateNow = LocalDate.now();
+        if (!checkin.isBefore(dateNow) && checkout.isAfter(checkin)) {
+            Optional<Home> homeOptional = homeService.findOne(id);
+            if (homeOptional.isPresent()) {
+                Home home = homeOptional.get();
+                Bill bill = new Bill();
+                bill.setHome(home);
 //            account chưa có
-            bill.setAccount(null);
-            bill.setCheckin(LocalDate.now());
-            bill.setCheckout(bill.getCheckin().plusMonths(count_month));
-            billRepository.updateStatusByIdHome(id);
-            double TotalPrice = home.getPrice() * count_month;
-            bill.setTotalPrice(TotalPrice);
-            billRepository.save(bill);
-
+                bill.setAccount(account);
+                bill.setCheckin(checkin);
+                bill.setCheckout(checkout);
+                billRepository.updateStatusByIdHome(id);
+                long days = ChronoUnit.DAYS.between(checkin, checkout);
+                double TotalPrice = home.getPrice() * days;
+                bill.setTotalPrice(TotalPrice);
+                billRepository.save(bill);
+            }
         }
 
 
@@ -73,9 +77,9 @@ public class BillService implements IBillService {
             return billRepository.getBill(id);
         } catch (Exception e) {
             e.getStackTrace();
-        } return null;
+        }
+        return null;
     }
-
 
 
 }
