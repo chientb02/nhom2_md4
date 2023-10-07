@@ -38,9 +38,10 @@ public class BillController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<List<Bill>> getBill(@Param("id") Long id) {
-        List<Bill> bills = billService.getBill(id);
+    @GetMapping ("/{username}")
+    public ResponseEntity<List<Bill>> getBill(@PathVariable("username") String username) {
+        Long idAccount = accountRepository.idAccount(username);
+        List<Bill> bills = billService.getBill(idAccount);
         return new ResponseEntity<>(bills, HttpStatus.OK);
     }
 }

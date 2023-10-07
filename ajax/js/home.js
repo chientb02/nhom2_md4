@@ -187,6 +187,7 @@ function showHome(data) {
         <div class="d-flex border-top">
             <small class="w-50 text-center border-end py-2">
                 <button style="border: none;background: none" onclick="detailHome(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</button>
+                <button style="border: none;background: none" onclick="toBill(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Thuê ngay</button>
             </small>
             <small class="w-50 text-center py-2">
                 <a class="text-body" href=""><i class="far fa-heart"></i>  Thuê ngay</a>
@@ -258,7 +259,7 @@ function displayAll1() {
                         <td>${data[i].status.name}</td>
                         <td>${data[i].account.username}</td>
                         
-                        <td><button onclick="updateH(${data[i].id})">Update</button></td>
+                        <td><button onclick="updateH(${data[i].idHome})">Update</button></td>
                         <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
                         </tr>`
                     displayImg(data[i].idHome);
@@ -358,7 +359,7 @@ function save() {
 
     if (id !== -1) {
         home = {
-            id: id,
+            idHome: id,
             name: name,
             bedroom_count: bedroom_count,
             bathroom_count: bathroom_count,
@@ -409,7 +410,30 @@ function save() {
     document.getElementById("form").reset()
     event.preventDefault()
 }
-
+function updateH(id) {
+    $.ajax({
+        url: `http://localhost:8080/api/homes/${id}`,
+        type: "GET",
+        success: function (data) {
+            document.getElementById("name").value = data.name
+            document.getElementById("bedroom_count").value = data.bedroom_count
+            document.getElementById("bathroom_count").value = data.bathroom_count
+            document.getElementById("description").value = data.description
+            document.getElementById("price").value = data.price
+            localStorage.setItem("idUpdate", data.idHome)
+        }
+    })
+}
+function deleteH(id) {
+    $.ajax({
+        url: `http://localhost:8080/api/homes/delete/${id}`,
+        type: "GET",
+        success: function () {
+            alert("Delete successfully!")
+            displayAll1()
+        }
+    })
+}
 function toBill(idHome) {
     localStorage.setItem("idHome", idHome);
     window.location.href = "bill.html";
@@ -446,7 +470,7 @@ function rentHome() {
         data: formData,
         url: `http://localhost:8080/api/bills/${idHome}`,
         success: function () {
-            alert("Yêu cầu thuê nhà của bạn đang được chủ nhà đồng ý!")
+            alert("Bạn đã thuê nhà thành công!")
             localStorage.removeItem("idHome");
             showHome()
 
@@ -456,16 +480,47 @@ function rentHome() {
 
     })
 }
-function deleteH(id) {
+function historyBill() {
+    let username = localStorage.getItem("account");
     $.ajax({
-        url: `http://localhost:8080/api/homes/delete/${id}`,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        url: `http://localhost:8080/api/bills/${username}`,
         type: "GET",
-        success: function () {
-            alert("Delete successfully!")
-            displayAll1()
+        success: function (data) {
+            arr = data
+            let content = `<h2>List user</h2>`
+            content += `<table border="1"><tr>
+                        <th>STT</th>            
+                        <th>Tên nhà</th>
+                        <th>Ảnh</th>
+                        <th>Địa chỉ</th>
+                        <th>Ngày thuê</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Tổng tiền</th>
+                              
+                        </tr>`
+            let j = 1;
+            for (let i = 0; i < data.length; i++) {
+                content += `<tr>
+                        <td>${j++}</td>
+                        <td>${data[i].home.name}</td>
+                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].home.image}" alt=""></td>
+                        <td>${data[i].home.address.name},${data[i].home.address.city.name}</td>
+                        <td>${data[i].checkin}</td>
+                        <td>${data[i].checkout}</td>
+                        <td>${data[i].totalPrice} VNĐ</td>
+                        </tr>`
+                displayImg(data[i].idHome)
+            }
+            content += `</table>`
+            document.getElementById("bill").innerHTML = content
         }
     })
 }
+
 
 
 
