@@ -37,11 +37,16 @@ function displayDetail() {
                             <span class="fw-bold" id="bedroom">Phòng ngủ: ${data.bedroom_count}</span>
                             <br>
                             <span class="fw-bold" id="bathroom">Phòng tắm: ${data.bathroom_count}</span>
+                        <div class="mt-5">
+                            <label for="checkin"></label>Checkin<input type="date" id="checkin">
+                            <label for="checkout"></label>Checkout<input type="date" id="checkout">
 
                         </div>
+                        
+                        </div>
                         <div class="buttons d-flex flex-row mt-5 gap-3">
-                            <button class="btn btn-outline-dark">Đặt ngay</button>
-                            <button class="btn btn-dark">Ưa thích</button>
+                            <button class="btn btn-outline-dark" onclick="rentHome()">Đặt ngay</button>
+                            
                         </div>
                     </div>
                 </div>

@@ -96,6 +96,9 @@ function searchByName() {
         type: "GET",
         success: function (data) {
             showHome(data);
+            numberPage = 0;
+            arrHome = data;
+            listDisplayPage = data.reverse();
             showPage();
         }
     })
@@ -178,13 +181,9 @@ function showHome(data) {
             <span class="text-body"> Phòng tắm: ${data[i].bathroom_count}</span><br>
             <span class="text-body"> Địa chỉ: ${data[i].address.name},${data[i].address.city.name}</span>
         </div>
-        <div class="d-flex border-top">
-            <small class="w-50 text-center border-end py-2">
-                <button style="border: none;background: none" onclick="detailHome(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Xem chi tiết</button>
-                <button style="border: none;background: none" onclick="toBill(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Thuê ngay</button>
-            </small>
-            <small class="w-50 text-center py-2">
-                <a class="text-body" href=""><i class="far fa-heart"></i>  Thuê ngay</a>
+        <div class="border-top" style="text-align: center">
+            <small class="w-50 text-center py-2" style="text-align: center">
+                <button style="border: none;background: none" onclick="toBill(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Đặt ngay</button>
             </small>
         </div>
     </div>
