@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IUserService extends IGenerateService<User>{
    List <User> findByAccount (Long id) ;
+   List <User> findByAdm () ;
 }

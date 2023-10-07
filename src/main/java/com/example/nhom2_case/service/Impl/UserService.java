@@ -36,4 +36,9 @@ public class UserService implements IUserService {
     public List<User> findByAccount(Long id) {
         return userRepository.findUserByRole(id);
     }
+
+    @Override
+    public List<User> findByAdm() {
+        return userRepository.findUserByAdm();
+    }
 }
