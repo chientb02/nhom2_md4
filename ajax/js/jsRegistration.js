@@ -14,6 +14,17 @@ function registration() {
         username: email,
          email : email ,
     }
+
+    let acc = {
+        username : email ,
+        password : password,
+        role :{
+            id :2
+        }
+    }
+
+
+    localStorage.setItem("acc" , JSON.stringify(acc))  ;
     var settings = {
         "url": "http://localhost:8080/api/client/create",
         "method": "POST",
@@ -51,6 +62,7 @@ function createRandomFourDigitNumber() {
 
 function register() {
     let user = localStorage.getItem("acc")
+    localStorage.removeItem("acc");
     $.ajax({
         headers: {
             "Content-Type": "application/json"
