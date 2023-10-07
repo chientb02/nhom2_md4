@@ -251,7 +251,7 @@ function displayAll1() {
                         <td>${data[i].status.name}</td>
                         <td>${data[i].account.username}</td>
                         
-                        <td><button onclick="updateH(${data[i].id})">Update</button></td>
+                        <td><button onclick="updateH(${data[i].idHome})">Update</button></td>
                         <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
                         </tr>`
                     displayImg(data[i].idHome);
@@ -349,7 +349,7 @@ function save() {
 
     if (id !== -1) {
         home = {
-            id: id,
+            idHome: id,
             name: name,
             bedroom_count: bedroom_count,
             bathroom_count: bathroom_count,
