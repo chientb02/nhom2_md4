@@ -42,7 +42,7 @@ function getAcc (){
 }
 
 function logout () {
-    localStorage.removeItem("token");
+   localStorage.clear();
 }
 function dk() {
     window.location.href = "signin.html"
