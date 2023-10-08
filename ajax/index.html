@@ -58,8 +58,6 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-lg-7">
-                                <h1 class="display-2 mb-5 animated slideInDown" style="color: crimson">Home Stay khiến
-                                    cuộc sống tươi đẹp hơn!</h1>
                             </div>
 
                         </div>
@@ -77,8 +75,6 @@
                             <div class="col-lg-7">
                                 <h1 class="display-2 mb-5 animated slideInDown" style="color: white">Đặt phòng thật
                                     đơn giản!</h1>
-                                <!--                                    <a href="" class="btn btn-primary rounded-pill py-sm-3 px-sm-5">Home Stay</a>-->
-                                <!--                                    <a href="" class="btn btn-secondary rounded-pill py-sm-3 px-sm-5 ms-3">Room</a>-->
                             </div>
                         </div>
                     </div>
@@ -112,16 +108,14 @@
                         <h1 class="display-5 mb-3">Các homestay của chúng tôi</h1>
                     </div>
                 </div>
-                <form>
+                <form style="display: flex">
                     <label>
                         <input type="text" id="search" placeholder="Tìm theo tên">
                     </label>
                     <button onclick="searchByName()" class="btn-sm-square bg-white rounded-circle ms-3" type="submit">
                         <small class="fa fa-search text-body"></small>
                     </button>
-<!--                    <button type="submit" onclick="searchByName()">Tìm kiếm</button>-->
                 </form>
-<!--                <button onclick="displayFilter">Bo loc</button>-->
                 <form  action="" class="form-input" enctype="multipart/form-data" >
                     <div class="col-md-12 mb-4" style="display: flex;margin-top: 5%" >
                         <div class="form-outline col-md-2 mb-4">
@@ -162,16 +156,13 @@
                                 <option value="5">5 phòng</option>
                             </select>
                         </div>
-                        <div class="form-outline">
-                            <button onclick="Filter()" class="btn-sm-square bg-white rounded-circle ms-3" type="submit">
+                        <div class="form-outline" style="margin-top: 20px">
+                            <button  onclick="Filter()" class="btn-sm-square bg-white rounded-circle ms-3" type="submit">
                                 <small class="fa fa-search text-body"></small>
                             </button>
                         </div>
-
                     </div>
-
                 </form>
-
             </div>
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane fade show p-0 active">

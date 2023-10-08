@@ -1,3 +1,4 @@
+let username=localStorage.getItem("account")
 let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow-delay=\"0.1s\">\n" +
     "    <div class=\"top-bar row gx-0 align-items-center d-none d-lg-flex\">\n" +
     "        <div class=\"col-lg-6 px-5 text-start\" style=\"margin-left: 55%\">\n" +
@@ -16,13 +17,13 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "        </button>\n" +
     "        <div class=\"collapse navbar-collapse\" id=\"navbarCollapse\">\n" +
     "            <div class=\"navbar-nav ms-auto p-4 p-lg-0\">\n" +
+    ` <a class=\"nav-item nav-link active\" style='color: red'>Xin chào ${username}!</a>\n`+
     "                <a href=\"index.html\" class=\"nav-item nav-link active\">Trang chủ</a>\n" +
     "                <a href=\"about.html\" class=\"nav-item nav-link\">Thông tin</a>\n" +
-    "                <a href=\"room.html\" class=\"nav-item nav-link\">Phòng</a>\n" +
     "                <div class=\"nav-item dropdown\" id=\"roleadm\" style = \"display : none \" >\n" +
     "                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Quản lý User</a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
-    "                        <a href=\"\" class=\"dropdown-item\">Xem user</a>\n" +
+    "                        <a href=\"adm.html\" class=\"dropdown-item\">Xem user</a>\n" +
     "                        <a href=\"\" class=\"dropdown-item\"></a>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -30,7 +31,7 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Quản lý homestay</a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
     "                        <a href=\"createHomeStay.html\" class=\"dropdown-item\">Thêm room</a>\n" +
-    "                        <a href=\"\" class=\"dropdown-item\">Hiển thị room</a>\n" +
+    // "                        <a href=\"\" class=\"dropdown-item\">Hiển thị room</a>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "                <a href=\"testimonial.html\" class=\"nav-item nav-link\">Phản hồi</a>\n" +
