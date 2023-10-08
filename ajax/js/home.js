@@ -2,6 +2,7 @@ let arrHome;
 let listDisplayPage;
 let numberPage;
 let totalPage;
+
 function DisplayAllHomestay() {
     $.ajax({
         url: "http://localhost:8080/api/homes",
@@ -14,16 +15,10 @@ function DisplayAllHomestay() {
             showPage();
         }
     })
-
 }
-
 function detailHome(id) {
-     localStorage.setItem("idHome",id)
-    window.location.href="detailHomestay.html"
-}
-
-function findOne() {
-
+    localStorage.setItem("idHome", id)
+    window.location.href = "detailHomestay.html"
 }
 
 function Filter() {
@@ -34,21 +29,21 @@ function Filter() {
     let count_bathroom = $("#bathroom").val();
     let count_bedroom = $("#bedroom").val();
     let idCity = $('#select_city').val();
-    if(idCity === "--Chọn thành phố--") {
+    if (idCity === "--Chọn thành phố--") {
         idCity = null;
     }
     let idDistrict = $('#select_district').val();
-    if(idDistrict === undefined) {
+    if (idDistrict === undefined) {
         idDistrict = null;
     }
     let idStatus = $('#select_status').val();
-    if(idStatus === "--Chọn trạng thái--") {
+    if (idStatus === "--Chọn trạng thái--") {
         idStatus = null;
     }
-    if (count_bathroom === "Chọn số phòng"){
+    if (count_bathroom === "Chọn số phòng") {
         count_bathroom = null;
     }
-    if (count_bedroom === "Chọn số phòng"){
+    if (count_bedroom === "Chọn số phòng") {
         count_bedroom = null;
     }
     newFilter = {
@@ -127,7 +122,7 @@ function displayOneImg(id) {
 
 function showPage() {
     let data = listDisplayPage;
-    let elementPage = 2;
+    let elementPage = 6;
     totalPage = Math.ceil(data.length / elementPage);
     // numberPage;
     //lưu numberPage ra biến Global
@@ -166,13 +161,12 @@ function nextPage(page) {
 function showHome(data) {
     let content = ""
     for (let i = 0; i < data.length; i++) {
-        content += `
+        if (data[i].deleted == null) {
+            content += `
 <div class="col-xl-3 col-lg-4 col-md-6">
     <div class="product-item">
         <p class="position-relative bg-light overflow-hidden">
         <p id="\img${data[i].idHome}\"></p>
-           
-            <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>
         </div>
         <div class="text-center p-4">
             <span class="d-block h5 mb-2">${data[i].name}</span>
@@ -185,14 +179,33 @@ function showHome(data) {
             <small class="w-50 text-center py-2" style="text-align: center">
                 <button style="border: none;background: none" onclick="toBill(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Đặt ngay</button>
             </small>
+             <button onclick="updateHs(${data[i].idHome})">Sửa</button>
+             <button onclick="deleteHs(${data[i].idHome})">Xóa</button>
         </div>
     </div>
 </div>`
-        displayImg(data[i].idHome)
+            displayImg(data[i].idHome)
+        }
     }
+
     document.getElementById("homes").innerHTML = content
 }
-
+function updateHs(id) {
+    localStorage.setItem("idUpdate",id)
+    window.location.href="createHomeStay.html"
+}
+function deleteHs(id) {
+    if (alert("Bạn có chắc muốn xóa?")) {
+    $.ajax({
+        url: `http://localhost:8080/api/homes/delete/${id}`,
+        type: "GET",
+        success: function () {
+            alert("Delete successfully!")
+            // displayAll1()
+            DisplayAllHomestay()
+        }
+    })}
+}
 function displayImg(idHome) {
     var settings = {
         "url": `http://localhost:8080/api/homes/img/${idHome}`,
@@ -208,12 +221,11 @@ function displayImg(idHome) {
             console.log(content)
             break;
         }
-        document.getElementById("img"+idHome).innerHTML = content;
+        document.getElementById("img" + idHome).innerHTML = content;
     });
 }
 
 let arr;
-
 
 
 function displayAll1() {
@@ -401,7 +413,7 @@ function save() {
         contentType: false,
         data: formData,
         success: function () {
-            alert("Create successfully!")
+            alert("Thành công!")
             displayAll1()
             localStorage.setItem("idUpdate", "-1")
         }
@@ -409,6 +421,7 @@ function save() {
     document.getElementById("form").reset()
     event.preventDefault()
 }
+
 function updateH(id) {
     $.ajax({
         url: `http://localhost:8080/api/homes/${id}`,
@@ -423,39 +436,43 @@ function updateH(id) {
         }
     })
 }
+
 function deleteH(id) {
     $.ajax({
         url: `http://localhost:8080/api/homes/delete/${id}`,
         type: "GET",
         success: function () {
             alert("Delete successfully!")
-            displayAll1()
+            // displayAll1()
+            DisplayAllHomestay()
         }
     })
 }
+
 function toBill(idHome) {
     localStorage.setItem("idHome", idHome);
     window.location.href = "bill.html";
 }
+
 function rentHome() {
     let acc = localStorage.getItem("account");
     let idHome = localStorage.getItem("idHome");
     let dateNow = new Date();
     let checkin = $("#checkin").val();
-    let checkin1 =  new Date(checkin)
+    let checkin1 = new Date(checkin)
     if (checkin1 < dateNow) {
         alert('Ngày checkin của bạn không hợp lệ');
         return;
     }
     let checkout = $("#checkout").val();
-    let checkout1 =  new Date(checkout)
+    let checkout1 = new Date(checkout)
     if (checkout1 <= checkin1) {
         alert('Ngày checkout phải lớn hơn ngày checkin.');
         return;
     }
     let newBill = {
-        checkin : checkin,
-        checkout : checkout
+        checkin: checkin,
+        checkout: checkout
     }
     let formData = new FormData()
     formData.append("bills",
@@ -479,6 +496,7 @@ function rentHome() {
 
     })
 }
+
 function historyBill() {
     let username = localStorage.getItem("account");
     $.ajax({
