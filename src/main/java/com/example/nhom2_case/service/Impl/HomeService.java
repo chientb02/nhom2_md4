@@ -6,6 +6,7 @@ import com.example.nhom2_case.service.IHomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class HomeService implements IHomeService {
@@ -40,5 +41,10 @@ public class HomeService implements IHomeService {
     @Override
     public Iterable<Home> searchByName(String search) {
         return homeRepository.findAllByNameContaining(search);
+    }
+
+    @Override
+    public List<Home> getHome(Long id) {
+        return homeRepository.getHome(id);
     }
 }

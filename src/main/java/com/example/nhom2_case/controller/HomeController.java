@@ -2,6 +2,7 @@ package com.example.nhom2_case.controller;
 import com.example.nhom2_case.model.Account;
 import com.example.nhom2_case.model.Home;
 import com.example.nhom2_case.model.Image;
+import com.example.nhom2_case.repository.AccountRepository;
 import com.example.nhom2_case.repository.ImageRepository;
 import com.example.nhom2_case.security.repository.IAccountRepository;
 import com.example.nhom2_case.security.service.IAccountService;
@@ -42,7 +43,7 @@ public class HomeController {
 
 
     @Autowired
-    private IAccountRepository accountRepository ;
+    private AccountRepository accountRepository ;
     @GetMapping
     public ResponseEntity<Iterable<Home>> findAll() {
         return new ResponseEntity<>(homeService.findAll(), HttpStatus.OK);
@@ -120,5 +121,10 @@ public class HomeController {
         }
     }
 
-
+    @PostMapping("/displayByHost/{username}")
+    public ResponseEntity<List<Home>> getHome(@PathVariable("username") String username) {
+        Long idAccount = accountRepository.idAccount(username);
+        List<Home> homes = homeService.getHome(idAccount);
+        return new ResponseEntity<>(homes, HttpStatus.OK);
+    }
 }
