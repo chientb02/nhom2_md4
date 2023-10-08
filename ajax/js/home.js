@@ -41,12 +41,12 @@ function Filter() {
     if (idStatus === "--Chọn trạng thái--") {
         idStatus = null;
     }
-    if (count_bathroom === "Chọn số phòng") {
-        count_bathroom = null;
-    }
-    if (count_bedroom === "Chọn số phòng") {
-        count_bedroom = null;
-    }
+    // if (count_bathroom === "Chọn số phòng") {
+    //     count_bathroom = null;
+    // }
+    // if (count_bedroom === "Chọn số phòng") {
+    //     count_bedroom = null;
+    // }
     newFilter = {
         minPrice: minPrice,
         maxPrice: maxPrice,
@@ -194,7 +194,7 @@ function showHome(data) {
             content += `
 <div class="col-xl-3 col-lg-4 col-md-6">
     <div class="product-item">
-        <p class="position-relative bg-light overflow-hidden">
+        <p class="position-relatbg-light overflow-hidden">
         <p id="\img${data[i].idHome}\"></p>
         </div>
         <div class="text-center p-4">
@@ -323,7 +323,7 @@ function displayCity() {
         type: "GET",
         url: `http://localhost:8080/api/cities`,
         success: function (data) {
-            let content = "<label for='select_city'>Thành phố</label><br>"
+            let content = "<label class='fw-bold' for='select_city'>Thành phố</label><br>"
             content += '<select id="select_city" onchange="displayDistrict()"  class="form-select">';
             content += `<option>--Chọn thành phố--</option>`;
             for (let i = 0; i < data.length; i++) {
@@ -343,7 +343,7 @@ function displayDistrict() {
         type: "POST",
         url: `http://localhost:8080/api/addresses/city/${idCity}`,
         success: function (data) {
-            let content = "<label for='select_district'>Quận/huyện</label><br>"
+            let content = "<label class='fw-bold' for='select_district'>Quận/huyện</label><br>"
             content += '<select id="select_district"  class="form-select">';
             for (let i = 0; i < data.length; i++) {
                 content += `<option value = ${data[i].idAddress}> ${data[i].name} </option>`;
@@ -359,7 +359,7 @@ function displayStatus() {
         type: "GET",
         url: `http://localhost:8080/api/status`,
         success: function (data) {
-            let content = "<label for='select_status'>Trạng thái</label><br>"
+            let content = "<label class='fw-bold' for='select_status'>Trạng thái</label><br>"
             content += '<select id="select_status" class="form-select">';
             content += `<option>--Chọn trạng thái--</option>`;
             for (let i = 0; i < data.length; i++) {
