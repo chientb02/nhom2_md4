@@ -1,36 +1,38 @@
 let arr;
 function displayAll() {
+    let username = localStorage.getItem("account");
     $.ajax({
         url: "http://localhost:8080/api/users",
         type: "GET",
         success: function (data) {
             arr = data
-            let content = `<h2>List user</h2>`
-            content += `<table><tr>
-                        <th>STT</th>
-                        <th>Name</th>
-                        <th>Avatar</th>
-                        <th>Gender</th>
-                        <th>Age</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th colspan="2">Action</th>
+            let content = `<div style="margin-top:20px"> 
+<h2 style="text-align: center; color: rgba(175,16,16,0.8); margin: 20px 20px" >Thông tin cá nhân</h2>`
+            content += `<table id="display-list" class="table table-striped" style="margin: 10px 10px"><tr>
+                   
+                        <th scope="col">Name</th>
+                        <th scope="col">Avatar</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col" colspan="2">Action</th>
                         </tr>`
             for (let i = 0; i < data.length; i++) {
+                if(username === data[i].account.username) {
                 content += `<tr>
-                        <td>${i + 1}</td>
-                        <td>${data[i].fullName}</td>
-                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].avatar}" alt=""></td>
-                        <td>${data[i].sex}</td>
-                        <td>${data[i].age}</td>
-                        <td>${data[i].address}</td>
-                        <td>${data[i].phone}</td>
-                        <td><button onclick="updateUser(${data[i].idUser})">Update</button></td>
+                        <td scope="row">${data[i].fullName}</td>
+                        <td scope="row"><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].avatar}" alt=""></td>
+                        <td scope="row">${data[i].sex}</td>
+                        <td scope="row">${data[i].age}</td>
+                        <td scope="row">${data[i].address}</td>
+                        <td scope="row">${data[i].phone}</td>
+                        <td scope="row"><button style="margin-top: 12px" class="btn btn-info"  onclick="updateUser(${data[i].idUser})">Update</button></td>
                         </tr>`
             }
-            content += `</table>`
+            content += `</table></div>`
             document.getElementById("users").innerHTML = content
-        }
+        } }
     })
 }
 function updateUser(id) {
@@ -44,7 +46,7 @@ function updateUser(id) {
             document.getElementById("address").value = data.address
             document.getElementById("phone").value = data.phone
             localStorage.setItem("img", data.image)
-            localStorage.setItem("idUpdate", data.idUser)
+            localStorage.setItem("idU", data.idUser)
         }
     })
 }
@@ -57,7 +59,7 @@ function save1() {
     let address = $("#address").val()
     let phone = $("#phone").val()
     let file = $("#file")[0].files[0]
-    let id = +localStorage.getItem("idUpdate")
+    let id = +localStorage.getItem("idU")
 
     if (file === undefined) {
         file = new File([], "", undefined)
@@ -66,6 +68,9 @@ function save1() {
     if (id !== -1) {
         user = {
             idUser: id,
+            account : {
+                id : id
+            },
             fullName: name,
             sex: sex,
             age: age,
@@ -97,7 +102,7 @@ function save1() {
         success: function () {
             alert("Update successfully!")
             displayAll()
-            localStorage.setItem("idUpdate", "-1")
+            localStorage.setItem("idU", "-1")
         }
     })
     document.getElementById("form").reset()
