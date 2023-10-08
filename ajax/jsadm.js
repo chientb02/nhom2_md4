@@ -8,48 +8,48 @@ function onch () {
         break ;
         case "3" : displayByRole(3)
         break ;
-        case "4" : displayByChange() ;
-        break ;
+        // case "4" : displayByChange() ;
+        // break ;
     }
 }
-function displayByChange () {
-    var settings = {
-        "url": `http://localhost:8080/api/users/role/2`,
-        "method": "GET",
-        "timeout": 0,
-        "headers": {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW5hIiwiaWF0IjoxNjk1ODc0ODcwLCJleHAiOjg4MDk1ODc0ODcwfQ.jr8kKgRG4vrnAzXuOASjnyn4WoA2qP98AqrdM94P4_Q"
-        },
-    };
-
-    $.ajax(settings).done(function (data) {
-        let flag = true ;
-            content = `<table>
-                        <tr> 
-                        <th>Tên </th>
-                        <th colspan="2">Lựa Chọn </th>
-                        </tr>
-`
-        for (let i = 0; i < data.length ; i++) {
-            if(data[i].changeRole == 1) {
-                flag = false ;
-                content += `<tr>
-                               <td>${data[i].fullName}</td> 
-                               <td>  <button onclick="allowAcc(${data[i].idUser})">Cho phép</button></td> 
-                               <td>  <button onclick="refuseAcc(${data[i].idUser})">Từ Chối</button></td> 
-                            </tr>`
-            }
-        }
-        content += `</table>`
-            document.getElementById("listUser").innerHTML = content
-
-
-        if(flag) {
-        content = `<p>Danh sách trống</p>`
-            document.getElementById("listUser").innerHTML = content
-        }
-    });
-}
+// function displayByChange () {
+//     var settings = {
+//         "url": `http://localhost:8080/api/users/role/2`,
+//         "method": "GET",
+//         "timeout": 0,
+//         "headers": {
+//             "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZW5hIiwiaWF0IjoxNjk1ODc0ODcwLCJleHAiOjg4MDk1ODc0ODcwfQ.jr8kKgRG4vrnAzXuOASjnyn4WoA2qP98AqrdM94P4_Q"
+//         },
+//     };
+//
+//     $.ajax(settings).done(function (data) {
+//         let flag = true ;
+//             content = `<table>
+//                         <tr>
+//                         <th>Tên </th>
+//                         <th colspan="2">Lựa Chọn </th>
+//                         </tr>
+// `
+//         for (let i = 0; i < data.length ; i++) {
+//             if(data[i].changeRole == 1) {
+//                 flag = false ;
+//                 content += `<tr>
+//                                <td>${data[i].fullName}</td>
+//                                <td>  <button onclick="allowAcc(${data[i].idUser})">Cho phép</button></td>
+//                                <td>  <button onclick="refuseAcc(${data[i].idUser})">Từ Chối</button></td>
+//                             </tr>`
+//             }
+//         }
+//         content += `</table>`
+//             document.getElementById("listUser").innerHTML = content
+//
+//
+//         if(flag) {
+//         content = `<p>Danh sách trống</p>`
+//             document.getElementById("listUser").innerHTML = content
+//         }
+//     });
+// }
 
 
 function displayByRole (role) {
@@ -128,5 +128,43 @@ function displayByAdm () {
 }
 
 
-function allowAcc (id) {}
-function refuseAcc (id) {}
+// function allowAcc (id) {
+//    let acc = {
+//        id : id ,
+//        roles : {
+//            id : 3
+//        }
+//    }
+//     let formData = new FormData()
+//     formData.append("user",
+//         new Blob([JSON.stringify(acc)], {type: 'application/json'}))
+//
+//     $.ajax({
+//         url: "http://localhost:8080/api/users/allow",
+//         type: "POST",
+//         processData: false,
+//         contentType: false,
+//         data: formData,
+//         success: function () {
+//         }
+//     })
+// }
+// function refuseAcc (id) {
+//     let user = {
+//         idUser : id ,
+//         changeRole : 0
+//     }
+//     let formData = new FormData()
+//     formData.append("user",
+//         new Blob([JSON.stringify(user)], {type: 'application/json'}))
+//
+//     $.ajax({
+//         url: "http://localhost:8080/api/users",
+//         type: "POST",
+//         processData: false,
+//         contentType: false,
+//         data: formData,
+//         success: function () {
+//         }
+//     })
+// }
