@@ -50,56 +50,6 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "    </nav>\n" +
     "</div>"
 
-let slide = "<div class=\"container-fluid p-0 mb-5 wow fadeIn\" data-wow-delay=\"0.1s\">\n" +
-    "    <div id=\"header-carousel\" class=\"carousel slide\" data-bs-ride=\"carousel\">\n" +
-    "        <div class=\"carousel-inner\">\n" +
-    "            <div class=\"carousel-item active\">\n" +
-    "                <img class=\"w-100\" src=\"img/blog-wide.jpg\" alt=\"Image\">\n" +
-    "                <div class=\"carousel-caption\">\n" +
-    "                    <div class=\"container\">\n" +
-    "                        <div class=\"row justify-content-start\">\n" +
-    "                            <div class=\"col-lg-7\">\n" +
-    "                                <h1 class=\"display-2 mb-5 animated slideInDown\" style=\"color: cyan\">Home Stay khiến\n" +
-    "                                    cuộc sống tươi đẹp hơn!</h1>\n" +
-    "                                <!--                                    <a href=\"\" class=\"btn btn-primary rounded-pill py-sm-3 px-sm-5\">HomeStay</a>-->\n" +
-    "                                <!--                                    <a href=\"\" class=\"btn btn-secondary rounded-pill py-sm-3 px-sm-5 ms-3\">Room</a>-->\n" +
-    "                            </div>\n" +
-    "\n" +
-    "                        </div>\n" +
-    "\n" +
-    "                    </div>\n" +
-    "\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <div class=\"carousel-item\">\n" +
-    "                <img class=\"w-100\" src=\"img/hero-2.jpg\" alt=\"Image\">\n" +
-    "                <div class=\"carousel-caption\">\n" +
-    "                    <div class=\"container\">\n" +
-    "                        <div class=\"row justify-content-start\">\n" +
-    "                            <div class=\"col-lg-7\">\n" +
-    "                                <h1 class=\"display-2 mb-5 animated slideInDown\" style=\"color: white\">Đặt phòng thật\n" +
-    "                                    đơn giản!</h1>\n" +
-    "                                <!--                                    <a href=\"\" class=\"btn btn-primary rounded-pill py-sm-3 px-sm-5\">Home Stay</a>-->\n" +
-    "                                <!--                                    <a href=\"\" class=\"btn btn-secondary rounded-pill py-sm-3 px-sm-5 ms-3\">Room</a>-->\n" +
-    "                            </div>\n" +
-    "                        </div>\n" +
-    "                    </div>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "\n" +
-    "            <button class=\"carousel-control-prev\" type=\"button\" data-bs-target=\"#header-carousel\"\n" +
-    "                    data-bs-slide=\"prev\">\n" +
-    "                <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n" +
-    "                <span class=\"visually-hidden\">Previous</span>\n" +
-    "            </button>\n" +
-    "            <button class=\"carousel-control-next\" type=\"button\" data-bs-target=\"#header-carousel\"\n" +
-    "                    data-bs-slide=\"next\">\n" +
-    "                <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n" +
-    "                <span class=\"visually-hidden\">Next</span>\n" +
-    "            </button>\n" +
-    "        </div>\n" +
-    "    </div>"
 
 let foot= "<div class=\"container-fluid bg-dark footer mt-5 pt-5 wow fadeIn\" data-wow-delay=\"0.1s\">\n" +
     "        <div class=\"container py-5\">\n" +
