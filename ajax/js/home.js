@@ -13,6 +13,7 @@ function DisplayAllHomestay() {
             arrHome = data;
             listDisplayPage = data.reverse();
             showPage();
+            // checkRoleHome()
         }
     })
 }
@@ -84,6 +85,35 @@ function Filter() {
     event.preventDefault();
 }
 
+function checkRoleHome () {
+    let role = localStorage.getItem("role") ;
+    switch (role) {
+        case "ROLE_USER" :
+            let elements3 = document.querySelectorAll(".booking");
+
+            for (let i = 0; i < elements3.length; i++) {
+                elements3[i].style.display = "block";
+            }
+            // document.querySelectorAll(".text-body").style.display = "block" ;
+            break;
+        case "ROLE_HOST" :
+            let elements = document.querySelectorAll(".update");
+
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].style.display = "block";
+            }
+            let elements2 = document.querySelectorAll(".delete");
+
+            for (let i = 0; i < elements2.length; i++) {
+                elements2[i].style.display = "block";
+            }
+            // document.querySelectorAll(".update").style.display = "block" ;
+            // document.querySelectorAll(".delete").style.display = "block" ;
+
+            break;
+    }
+}
+
 function searchByName() {
     let search = document.getElementById("search").value
     $.ajax({
@@ -122,15 +152,14 @@ function displayOneImg(id) {
 
 function showPage() {
     let data = listDisplayPage;
-    let elementPage = 6;
+    let elementPage = 8;
     totalPage = Math.ceil(data.length / elementPage);
-    // numberPage;
-    //lưu numberPage ra biến Global
     let startPage = (numberPage * elementPage);
     let endPage = ((numberPage + 1) * elementPage);
     let subArr = data.slice(startPage, endPage);
     showHome(subArr);
     showFootPage();
+    checkRoleHome();
     console.log(totalPage)
 }
 
@@ -175,16 +204,21 @@ function showHome(data) {
             <span class="text-body"> Phòng tắm: ${data[i].bathroom_count}</span><br>
             <span class="text-body"> Địa chỉ: ${data[i].address.name},${data[i].address.city.name}</span>
         </div>
-        <div class="border-top" style="text-align: center">
-            <small class="w-50 text-center py-2" style="text-align: center">
-                <button style="border: none;background: none" onclick="toBill(${data[i].idHome})" class="text-body"><i class="fa fa-eye text-primary me-2"></i>Đặt ngay</button>
+        <div class="border-top" style="text-align: center" >
+            <small class="w-100 text-center py-2" style="text-align: center">
+                <button style="border: none;background: none;display: none" onclick="toBill(${data[i].idHome})" class="booking text-body"><i class="fa fa-eye text-primary me-2"></i>Đặt ngay</button>
             </small>
-             <button onclick="updateHs(${data[i].idHome})">Sửa</button>
-             <button onclick="deleteHs(${data[i].idHome})">Xóa</button>
+            <div style="display: flex; text-align: center">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <button  onclick="updateHs(${data[i].idHome})" class="update btn btn-info " style="display: none">Sửa</button>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <button onclick="deleteHs(${data[i].idHome})" class="delete btn btn-danger" style="display: none" >Xóa</button>
+             </div>
         </div>
     </div>
 </div>`
             displayImg(data[i].idHome)
+
         }
     }
 
@@ -416,6 +450,7 @@ function save() {
             alert("Thành công!")
             displayAll1()
             localStorage.setItem("idUpdate", "-1")
+            window.location.href="index.html"
         }
     })
     document.getElementById("form").reset()

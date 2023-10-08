@@ -22,6 +22,7 @@ function login() {
             localStorage.setItem("token", data.token);
             window.location.href = "index.html" ;
             getAcc()
+            localStorage.setItem("idUpdate","-1")
         }
     })
     if (flag){
