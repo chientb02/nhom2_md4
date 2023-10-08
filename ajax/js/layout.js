@@ -40,7 +40,7 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "                <div class=\"nav-item dropdown\">\n" +
     "                    <a href=\"#\" class=\" nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\"><small class=\"fa fa-user text-body\"></small></a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
-    "                        <a href=\"\" class=\"dropdown-item\">Profile</a>\n" +
+    "                        <a href=\"user.html\" class=\"dropdown-item\">Thông tin cá nhân</a>\n" +
     "                        <a href=\"login.html\" class=\"dropdown-item\" >Đăng xuất</a>\n" +
     "                        <a href=\"historyBill.html\" class=\"dropdown-item\">Xem lịch sử mua hàng</a>\n" +
     "                    </div>\n" +
