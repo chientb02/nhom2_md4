@@ -7,6 +7,7 @@ function login() {
         password: password
     }
     localStorage.setItem("account", username)
+    let  flag = true ;
     $.ajax({
         headers: {
             "Content-Type": "application/json"
@@ -14,12 +15,17 @@ function login() {
         url: "http://localhost:8080/api/auth/login",
         type: "POST",
         data: JSON.stringify(user),
+
         success: function (data) {
+            flag = false ;
             localStorage.setItem("token", data.token)
             window.location.href = "index.html"
             getAcc()
         }
     })
+    if (flag){
+        delayedFunction();
+    }
 }
 
 function getAcc (){
@@ -36,5 +42,13 @@ function getAcc (){
 
 function logout () {
     localStorage.removeItem("token");
-    window.location.href = "login.html"
+}
+function dk() {
+    window.location.href = "signin.html"
+}
+
+function delayedFunction() {
+    setTimeout(function() {
+        alert("Thông tin đăng nhập không chính xác");
+    }, 1000); // 2000 milliseconds = 2 giây
 }

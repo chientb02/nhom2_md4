@@ -35,15 +35,13 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "                </div>\n" +
     "                <a href=\"testimonial.html\" class=\"nav-item nav-link\">Phản hồi</a>\n" +
     "                <a href=\"contact.html\" class=\"nav-item nav-link\">Liên hệ</a>\n" +
-    "                <a href=\"login.html\" class=\"nav-item nav-link\">Đăng nhập</a>\n" +
-    "                <a  class=\"nav-item nav-link\" href=\"signin.html\">Đăng ký</a>\n" +
-    "            </div>\n" +
+    "                    </div>\n" +
     "            <div class=\"d-none d-lg-flex ms-2\">\n" +
     "                <div class=\"nav-item dropdown\">\n" +
     "                    <a href=\"#\" class=\" nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\"><small class=\"fa fa-user text-body\"></small></a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
     "                        <a href=\"\" class=\"dropdown-item\">Profile</a>\n" +
-    "                        <a href=\"\" class=\"dropdown-item\">Đăng xuất</a>\n" +
+    "                        <a href=\"login.html\" class=\"dropdown-item\" >Đăng xuất</a>\n" +
     "                        <a href=\"historyBill.html\" class=\"dropdown-item\">Xem lịch sử mua hàng</a>\n" +
     "                    </div>\n" +
     "                </div>\n" +

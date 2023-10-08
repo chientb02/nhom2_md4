@@ -76,5 +76,8 @@ function register() {
         }
     })
 }
+function dn() {
+    window.location.href = "login.html"
+}
 
 
