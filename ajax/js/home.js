@@ -203,7 +203,7 @@ function displayImg(idHome) {
     $.ajax(settings).done(function (response) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
-            content += `<img style="height: 200px"  src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+            content += `<img style="height: 150px; width: 200px"  src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
 
             console.log(content)
             break;
@@ -490,34 +490,90 @@ function historyBill() {
         type: "GET",
         success: function (data) {
             arr = data
-            let content = `<h2>List user</h2>`
-            content += `<table border="1"><tr>
-                        <th>STT</th>            
-                        <th>Tên nhà</th>
-                        <th>Ảnh</th>
-                        <th>Địa chỉ</th>
-                        <th>Ngày thuê</th>
-                        <th>Ngày kết thúc</th>
-                        <th>Tổng tiền</th>
+            let content = `<div style="margin-top:150px"> <h2 style="text-align: center; color: rgba(175,16,16,0.8); margin: 20px 20px" >Lịch sử thuê nhà của bạn</h2>`
+            content += `<table id="display-list" class="table table-striped" style="margin: 10px 10px"><tr>
+                        <th scope="col">STT</th>            
+                        <th scope="col">Tên nhà</th>
+                        <th scope="col">Tên chủ nhà</th>
+                        <th scope="col">Ảnh</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Ngày thuê</th>
+                        <th scope="col">Ngày kết thúc</th>
+                        <th scope="col">Tổng tiền</th>
                               
                         </tr>`
             let j = 1;
             for (let i = 0; i < data.length; i++) {
                 content += `<tr>
-                        <td>${j++}</td>
-                        <td>${data[i].home.name}</td>
-                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].home.image}" alt=""></td>
-                        <td>${data[i].home.address.name},${data[i].home.address.city.name}</td>
-                        <td>${data[i].checkin}</td>
-                        <td>${data[i].checkout}</td>
-                        <td>${data[i].totalPrice} VNĐ</td>
+                        <td scope="row">${j++}</td>
+                        <td scope="row">${data[i].home.name}</td>
+                        <td scope="row">${data[i].home.account.username}</td>
+                        <td scope="row"><p id="\img${data[i].home.idHome}\"></p></td>
+                        <td scope="row">${data[i].home.address.name},${data[i].home.address.city.name}</td>
+                        <td scope="row">${data[i].checkin}</td>
+                        <td scope="row">${data[i].checkout}</td>
+                        <td scope="row">${data[i].totalPrice} VNĐ</td>
                         </tr>`
-                displayImg(data[i].idHome)
+                displayImg(data[i].home.idHome)
             }
-            content += `</table>`
+            content += `</table> </div>`
             document.getElementById("bill").innerHTML = content
         }
     })
+}
+
+function displayByHost() {
+    let username = localStorage.getItem("account");
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        url: `http://localhost:8080/api/homes//displayByHost/${username}`,
+        type: "GET",
+        success: function (data) {
+            arr = data
+            let content = `<h2>List home</h2>`
+            content += `<table><tr>
+                        <th>STT</th>
+                        <th>Tên</th>
+                        <th>Địa chỉ</th>
+                        <th>Phòng ngủ</th>
+                        <th>Phòng tắm</th>
+                        <th>Miêu tả</th>
+                        <th>Giá</th>
+                        <th>Ảnh</th>
+                        <th>Trạng thái</th>
+                        <th colspan="2">Action</th>
+                        </tr>`
+            let j = 1;
+
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].deleted == null) {
+
+                    content += `<tr>
+                        <td>${j++}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].address.name} ${data[i].address.city.name}</td>
+                        <td>${data[i].bedroom_count}</td>
+                        <td>${data[i].bathroom_count}</td>
+                        <td>${data[i].description}</td>
+                        <td>${data[i].price}</td>
+                        <td><p id="\img${data[i].idHome}\"></p></td>
+                        <td>${data[i].status.name}</td>
+                        <td><button onclick="updateH(${data[i].idHome})">Update</button></td>
+                        <td><button onclick="deleteH(${data[i].idHome})">Delete</button></td>
+                        </tr>`
+                    displayImg(data[i].idHome);
+
+
+                }
+            }
+            content += `</table>`
+            document.getElementById("homes").innerHTML = content
+        }
+    })
+
 }
 
 
