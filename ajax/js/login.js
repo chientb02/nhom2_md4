@@ -18,8 +18,9 @@ function login() {
 
         success: function (data) {
             flag = false ;
-            localStorage.setItem("token", data.token)
-            window.location.href = "index.html"
+            localStorage.setItem("role", data.authorities[0].authority);
+            localStorage.setItem("token", data.token);
+            window.location.href = "index.html" ;
             getAcc()
         }
     })

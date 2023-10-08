@@ -19,14 +19,14 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "                <a href=\"index.html\" class=\"nav-item nav-link active\">Trang chủ</a>\n" +
     "                <a href=\"about.html\" class=\"nav-item nav-link\">Thông tin</a>\n" +
     "                <a href=\"room.html\" class=\"nav-item nav-link\">Phòng</a>\n" +
-    "                <div class=\"nav-item dropdown\">\n" +
+    "                <div class=\"nav-item dropdown\" id=\"roleadm\" style = \"display : none \" >\n" +
     "                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Quản lý User</a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
     "                        <a href=\"\" class=\"dropdown-item\">Xem user</a>\n" +
     "                        <a href=\"\" class=\"dropdown-item\"></a>\n" +
     "                    </div>\n" +
     "                </div>\n" +
-    "                <div class=\"nav-item dropdown\">\n" +
+    "                <div class=\"nav-item dropdown\" id=\"rolehost\" style = \"display : none \" >\n" +
     "                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Quản lý homestay</a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
     "                        <a href=\"createHomeStay.html\" class=\"dropdown-item\">Thêm room</a>\n" +
@@ -166,4 +166,16 @@ function slider(){
     footter()
 head()
 slider()
+
+function checkRole () {
+    role = localStorage.getItem("role") ;
+    switch (role) {
+        case "ROLE_ADMIN" :
+            document.getElementById("roleadm").style.display = "block" ;
+            break;
+        case "ROLE_HOST" :
+            document.getElementById("rolehost").style.display = "block" ;
+            break;
+    }
+}
 
