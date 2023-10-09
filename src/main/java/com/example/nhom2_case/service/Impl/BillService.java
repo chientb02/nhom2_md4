@@ -54,7 +54,7 @@ public class BillService implements IBillService {
                 Home home = homeOptional.get();
                 Bill bill = new Bill();
                 bill.setHome(home);
-//            account chưa có
+
                 bill.setAccount(account);
                 bill.setCheckin(checkin);
                 bill.setCheckout(checkout);

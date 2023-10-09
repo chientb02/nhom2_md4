@@ -65,21 +65,21 @@ function displayByRole (role) {
     $.ajax(settings).done(function (data) {
         if(data.length > 0) {
 
-            content = `<table> <tr>
-                        <th>STT</th>
-                        <th>Tên</th>
-                        <th>Ảnh</th>
-                        <th>Tên Đăng Nhập</th>
-                        <th>Quyền Hạn</th>
+            content = `<table class="table table-striped" style="margin: 10px 10px"> <tr>
+                        <th scope="col" >STT</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Ảnh</th>
+                        <th scope="col">Tên Đăng Nhập</th>
+                        <th scope="col">Quyền Hạn</th>
 <!--                        // <th>Lựa chọn</th> -->
                         </tr>`;
             for (let i = 0; i < data.length; i++) {
                 content += `<tr> 
-                        <td> ${i + 1} </td>
-                        <td> ${data[i].fullName} </td>
-                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].avatar}" alt=""></td>
-                        <td> ${data[i].account.username} </td>
-                        <td> ${data[i].account.roles[0].name} </td>
+                        <td scope="row"> ${i + 1} </td>
+                        <td scope="row"> ${data[i].fullName} </td>
+                        <td scope="row"><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].avatar}" alt=""></td>
+                        <td scope="row"> ${data[i].account.username} </td>
+                        <td scope="row"> ${data[i].account.roles[0].name} </td>
 <!--                        <td>  <button id="status" onclick=""> </button> -->
                         </tr>`
             }
@@ -104,21 +104,21 @@ function displayByAdm () {
     };
 
     $.ajax(settings).done(function (data) {
-        content = `<table> <tr>
-                        <th>STT</th>
-                        <th>Tên</th>
-                        <th>Ảnh</th>
-                        <th>Tên Đăng Nhập</th>
-                        <th>Quyền Hạn</th>
+        content = `<table class="table table-striped" style="margin: 10px 10px"> <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Ảnh</th>
+                        <th scope="col">Tên Đăng Nhập</th>
+                        <th scope="col">Quyền Hạn</th>
 <!--                        // <th>Lựa chọn</th> -->
                         </tr>` ;
         for (let i = 0; i < data.length ; i++) {
             content += `<tr> 
-                        <td> ${i + 1} </td>
-                        <td> ${data[i].fullName} </td>
-                        <td><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].avatar}" alt=""></td>
-                        <td> ${data[i].account.username} </td>
-                        <td> ${data[i].account.roles[0].name} </td>
+                        <td scope="row"> ${i + 1} </td>
+                        <td scope="row"> ${data[i].fullName} </td>
+                        <td scope="row"><img style="width: 100px; height: 100px" src="../src/main/resources/static/image/${data[i].avatar}" alt=""></td>
+                        <td scope="row"> ${data[i].account.username} </td>
+                        <td scope="row"> ${data[i].account.roles[0].name} </td>
 <!--                        <td>  <button id="status" onclick=""> </button> -->
                         </tr>`
         }

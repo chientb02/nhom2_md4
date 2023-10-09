@@ -17,9 +17,8 @@ function DisplayAllHomestay() {
         }
     })
 }
-function detailHome(id) {
-    localStorage.setItem("idHome", id)
-    window.location.href = "detailHomestay.html"
+function detailHome() {
+    alert("Tính năng đang phát triển! ")
 }
 
 function Filter() {
@@ -130,6 +129,7 @@ function searchByName() {
     event.preventDefault();
 }
 
+
 function displayOneImg(id) {
     var settings = {
         "url": `http://localhost:8080/api/homes/img/${id}`,
@@ -190,31 +190,28 @@ function nextPage(page) {
 function showHome(data) {
     let content = ""
     for (let i = 0; i < data.length; i++) {
-        if (data[i].deleted == null) {
+        if (data[i].deleted == null && data[i].status.idStatus === 1) {
             content += `
 <div class="col-xl-3 col-lg-4 col-md-6">
     <div class="product-item">
         <p class="position-relatbg-light overflow-hidden">
         <p id="\img${data[i].idHome}\"></p>
         </div>
-        <div class="text-center p-4">
+        <div class="text-center p-12">
             <span class="d-block h5 mb-2">${data[i].name}</span>
-            <span class="text-primary me-1">Giá: ${data[i].price}</span>
+            <span class="text-danger me-1">Giá: ${data[i].price} VND</span>
             <span class="text-body"> Phòng ngủ: ${data[i].bedroom_count}</span><br>
             <span class="text-body"> Phòng tắm: ${data[i].bathroom_count}</span><br>
             <span class="text-body"> Địa chỉ: ${data[i].address.name},${data[i].address.city.name}</span>
         </div>
-        <div class="border-top" style="text-align: center" >
-            <small class="w-100 text-center py-2" style="text-align: center">
-                <button style="border: none;background: none;display: none" onclick="toBill(${data[i].idHome})" class="booking text-body"><i class="fa fa-eye text-primary me-2"></i>Đặt ngay</button>
+        <div class="d-flex border-top"  >
+            <small class="w-100 text-center border-end  py-2" >
+                <button style="border: none;background: none;display: none" onclick="toBill(${data[i].idHome})" class="booking text-body"><i class="far fa-heart text-primary me-2"></i>Đặt ngay</button>
             </small>
-            
-            <div style="display: flex; text-align: center">
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-            <button  onclick="updateHs(${data[i].idHome})" class="update btn btn-info " style="display: none">Sửa</button>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-            <button onclick="deleteHs(${data[i].idHome})" class="delete btn btn-danger" style="display: none" >Xóa</button>
-             </div>
+            <small class="w-100 text-center border-end py-2">
+                <button class="text-body" style="border: none;background: none;" onclick="detailHome()" ><i class="fa fa-eye text-primary me-2"></i>Chi tiết</button>
+            </small>
+           
         </div>
     </div>
 </div>`
@@ -630,6 +627,56 @@ function displayByHost() {
 
 }
 
+function DisplayAllHomestay1() {
+    $.ajax({
+        url: "http://localhost:8080/api/homes",
+        type: "GET",
+        success: function (data) {
+            showHome1(data)
+            numberPage = 0;
+            arrHome = data;
+            listDisplayPage = data.reverse();
+            showPage();
+            // checkRoleHome()
+        }
+    })
+}
+function showHome1(data) {
+    let username = localStorage.getItem("account")
+    let content = ""
+    for (let i = 0; i < data.length; i++) {
+        if (username === data[i].account.username) {
+            if (data[i].deleted == null) {
+                content += `
+<div class="col-xl-3 col-lg-4 col-md-6">
+    <div class="product-item">
+        <p class="position-relatbg-light overflow-hidden">
+        <p id="\img${data[i].idHome}\"></p>
+        </div>
+        <div class="text-center p-4">
+            <span class="d-block h5 mb-2">${data[i].name}</span>
+            <span class="text-primary me-1">Giá: ${data[i].price}</span>
+            <span class="text-body"> Phòng ngủ: ${data[i].bedroom_count}</span><br>
+            <span class="text-body"> Phòng tắm: ${data[i].bathroom_count}</span><br>
+            <span class="text-body"> Địa chỉ: ${data[i].address.name},${data[i].address.city.name}</span>
+        </div>
+        <div class="border-top" >
+           
+            <div style="display: flex;margin-left: 5%">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <button   onclick="updateHs(${data[i].idHome})" class="update btn btn-info " >Sửa</button>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <button onclick="deleteHs(${data[i].idHome})" class="delete btn btn-danger" >Xóa</button>
+             </div>
+        </div>
+    </div>
+</div>`
+                displayImg(data[i].idHome)
 
+            }
+        }
+    }
 
+    document.getElementById("host").innerHTML = content
+}
 

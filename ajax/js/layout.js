@@ -31,7 +31,7 @@ let header = " <div class=\"container-fluid fixed-top px-0 wow fadeIn\" data-wow
     "                    <a href=\"#\" class=\"nav-link dropdown-toggle\" data-bs-toggle=\"dropdown\">Quản lý homestay</a>\n" +
     "                    <div class=\"dropdown-menu m-0\">\n" +
     "                        <a href=\"createHomeStay.html\" class=\"dropdown-item\">Thêm room</a>\n" +
-    // "                        <a href=\"\" class=\"dropdown-item\">Hiển thị room</a>\n" +
+    "                        <a href=\"roomHost.html\" class=\"dropdown-item\">Room của tôi</a>\n" +
     "                    </div>\n" +
     "                </div>\n" +
     "                <a href=\"testimonial.html\" class=\"nav-item nav-link\">Phản hồi</a>\n" +
