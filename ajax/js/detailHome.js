@@ -90,7 +90,7 @@ function displayOneImg(id) {
     $.ajax(settings).done(function (response) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
-            content += `<img id="main_product_image" width="350" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+            content += `<img id="main_product_image" width="700" src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
             break
         }
         document.getElementById("imageMain").innerHTML = content;

@@ -123,7 +123,7 @@ function searchByName() {
             showHome(data);
             numberPage = 0;
             arrHome = data;
-            listDisplayPage = data.reverse();
+            listDisplayPage = arrHome.reverse();
             showPage();
         }
     })
@@ -208,6 +208,7 @@ function showHome(data) {
             <small class="w-100 text-center py-2" style="text-align: center">
                 <button style="border: none;background: none;display: none" onclick="toBill(${data[i].idHome})" class="booking text-body"><i class="fa fa-eye text-primary me-2"></i>Đặt ngay</button>
             </small>
+            
             <div style="display: flex; text-align: center">
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
             <button  onclick="updateHs(${data[i].idHome})" class="update btn btn-info " style="display: none">Sửa</button>
@@ -229,7 +230,7 @@ function updateHs(id) {
     window.location.href="createHomeStay.html"
 }
 function deleteHs(id) {
-    if (alert("Bạn có chắc muốn xóa?")) {
+    if (confirm("Bạn có chắc muốn xóa?")) {
     $.ajax({
         url: `http://localhost:8080/api/homes/delete/${id}`,
         type: "GET",
@@ -250,7 +251,7 @@ function displayImg(idHome) {
     $.ajax(settings).done(function (response) {
         let content = "";
         for (let i = 0; i < response.length; i++) {
-            content += `<img style="height: 150px; width: 200px"  src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
+            content += `<img style="height: 250px; width: 350px"  src="../../src/main/resources/static/image/${response[i].image}" alt=""/>`
 
             console.log(content)
             break;
