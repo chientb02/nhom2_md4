@@ -1,29 +1,31 @@
 package com.example.nhom2_case.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-@Table (name = "role")
 public class Role {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long idRole ;
-    private String name ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
     public Role() {
     }
 
-    public Role(Long idRole, String name) {
-        this.idRole = idRole;
+    public Role(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public Long getIdRole() {
-        return idRole;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdRole(Long idRole) {
-        this.idRole = idRole;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

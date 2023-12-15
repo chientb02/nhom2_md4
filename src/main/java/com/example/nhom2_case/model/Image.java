@@ -14,6 +14,10 @@ public class Image {
     public Image() {
     }
 
+    public Image(String image) {
+        this.image = image;
+    }
+
     public Image(Long idImage, String image, Home home) {
         this.idImage = idImage;
         this.image = image;

@@ -11,27 +11,35 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser ;
+    @OneToOne
+    private Account account ;
     private String fullName ;
     private String avatar ;
     private String sex ;
-    private int age ;
+    private Integer age ;
     private String address ;
     private String phone ;
+    @Column(columnDefinition = "integer default 0")
+    private Integer changeRole ;
     @Transient
     private MultipartFile file ;
 
     public User() {
     }
 
-    public User(Long idUser, String fullName, String avatar, String sex, int age, String address, String phone, MultipartFile file) {
-        this.idUser = idUser;
-        this.fullName = fullName;
-        this.avatar = avatar;
-        this.sex = sex;
-        this.age = age;
-        this.address = address;
-        this.phone = phone;
-        this.file = file;
+    public Integer getChangeRole() {
+        return changeRole;
+    }
+
+    public void setChangeRole(Integer changeRole) {
+        this.changeRole = changeRole;
+    }
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Long getIdUser() {
@@ -66,11 +74,11 @@ public class User {
         this.sex = sex;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
